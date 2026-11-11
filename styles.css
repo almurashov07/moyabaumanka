@@ -20,3 +20,38 @@
 /* v17.3 compact home without university banner */
 .shell>.top{margin-bottom:16px}.page>.layout{margin-top:4px}
 @media(max-width:740px){.shell{padding-top:calc(env(safe-area-inset-top) + 12px)}}
+
+/* v17.4: motion, adaptive desktop and performance layer */
+@keyframes nova-page-in{from{opacity:.55;transform:translate3d(0,9px,0)}to{opacity:1;transform:translate3d(0,0,0)}}
+@keyframes nova-card-in{from{opacity:0;transform:translate3d(0,12px,0) scale(.985)}to{opacity:1;transform:translate3d(0,0,0) scale(1)}}
+.page-enter{animation:nova-page-in .28s cubic-bezier(.22,1,.36,1) both}
+.page-enter .panel,.page-enter .section{animation:nova-card-in .42s cubic-bezier(.22,1,.36,1) both}
+.page-enter .panel:nth-child(2){animation-delay:45ms}
+.page-enter .panel:nth-child(3){animation-delay:85ms}
+.page-enter .panel:nth-child(n+4){animation-delay:110ms}
+.panel,.glass{transition:border-color .2s ease,background-color .2s ease,box-shadow .25s ease}
+button,[data-action]{-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+button{transition:transform .16s cubic-bezier(.2,.8,.2,1),background-color .2s ease,box-shadow .2s ease}
+button:active{transform:scale(.97)}
+@media (hover:hover) and (pointer:fine){button:hover{filter:brightness(1.07)}.panel[data-action]:hover{transform:translateY(-2px);box-shadow:0 18px 45px #0002}}
+@media(min-width:1150px){
+ .shell{max-width:1440px;padding:40px 48px 90px}
+ .layout{grid-template-columns:minmax(0,1.3fr) minmax(330px,.7fr);gap:26px}
+ .stack{gap:22px}
+ .panel{padding:24px;border-radius:24px}
+ .top h1{font-size:42px}
+ #nova-nav{position:fixed;left:20px;top:50%;transform:translateY(-50%);z-index:20}
+ #nova-nav nav{position:static!important;transform:none!important;display:flex;flex-direction:column;max-width:76px;width:76px;gap:8px;padding:12px 8px}
+ body{padding-left:94px}
+}
+@media(min-width:1600px){.shell{max-width:1540px}}
+@media(max-width:700px){.shell{padding-left:16px;padding-right:16px}}
+@media(prefers-reduced-motion:reduce){
+ *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+}
+@media(min-width:1150px){
+ #nova-nav .nav{position:static;left:auto;bottom:auto;transform:none;width:76px;display:flex;flex-direction:column;gap:7px;padding:8px;border-radius:24px}
+ #nova-nav .nav-indicator{display:none}
+ #nova-nav .nav button{width:58px;height:58px;border-radius:17px;flex:none}
+ #nova-nav .nav button.active{background:linear-gradient(135deg,#4ba4ff,#1c62bc);box-shadow:0 4px 15px #378be970}
+}
