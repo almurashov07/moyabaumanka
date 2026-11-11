@@ -1,5 +1,5 @@
-const CACHE='baumanka-nova-v17-7';
-const CORE=['./','./index.html','./styles.css?v=177','./seed.js?v=177','./app.js?v=177','./horoscope.js?v=177','./manifest.webmanifest','./icon-192.png','./icon-512.png'];
+const CACHE='baumanka-nova-v18-0';
+const CORE=['./','./index.html','./styles.css?v=180','./seed.js?v=180','./app.js?v=180','./horoscope.js?v=180','./manifest.webmanifest','./icon-192.png','./icon-512.png'];
 self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(CORE)).then(()=>self.skipWaiting())));
 self.addEventListener('activate',event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith('baumanka-nova-')&&k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
 self.addEventListener('fetch',event=>{
