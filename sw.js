@@ -1,5 +1,5 @@
-const CACHE='baumanka-nova-v18-1';
-const CORE=['./','./index.html','./styles.css?v=181','./seed.js?v=181','./app.js?v=181','./horoscope.js?v=181','./manifest.webmanifest','./icon-192.png','./icon-512.png','./skins/bratva/chibis.jpeg','./skins/bratva/siply.jpeg','./skins/bratva/basmach.jpeg','./skins/bratva/sych.jpeg','./skins/bratva/shershavy.jpeg'];
+const CACHE='baumanka-nova-v18-1-free';
+const CORE=['./','./index.html','./styles.css?v=1811','./seed.js?v=1811','./app.js?v=1811','./horoscope.js?v=1811','./manifest.webmanifest','./icon-192.png','./icon-512.png','./skins/bratva/chibis.jpeg','./skins/bratva/siply.jpeg','./skins/bratva/basmach.jpeg','./skins/bratva/sych.jpeg','./skins/bratva/shershavy.jpeg'];
 self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(CORE)).then(()=>self.skipWaiting())));
 self.addEventListener('activate',event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith('baumanka-nova-')&&k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
 self.addEventListener('fetch',event=>{
