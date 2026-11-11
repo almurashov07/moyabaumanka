@@ -55,3 +55,37 @@ button:active{transform:scale(.97)}
  #nova-nav .nav button{width:58px;height:58px;border-radius:17px;flex:none}
  #nova-nav .nav button.active{background:linear-gradient(135deg,#4ba4ff,#1c62bc);box-shadow:0 4px 15px #378be970}
 }
+
+/* v17.5 hotfix: stable weather status, no periodic full-page animation */
+.weather-chip{display:inline-flex;align-items:center;margin-top:10px;padding:7px 12px;border:1px solid var(--line);border-radius:999px;background:var(--raised);color:var(--text);font-size:13px;font-weight:600;line-height:1.2}
+
+/* v17.6: prevent input focus jumps and animated rerenders */
+.subject .subject-detail{overflow-anchor:auto}
+.subject input:focus-visible{outline:2px solid var(--accent,#60a5fa);outline-offset:2px}
+
+/* v17.7: interactive affordances without triggering clicks */
+@media (hover:hover) and (pointer:fine){
+ button:not(:disabled),[role="button"],[data-action]{transition:background-color .2s ease,border-color .2s ease,box-shadow .22s ease,filter .2s ease,transform .22s cubic-bezier(.2,.8,.2,1)}
+ button:not(:disabled):hover,[role="button"]:hover,[data-action]:hover{filter:brightness(1.11);box-shadow:0 0 0 1px color-mix(in srgb,var(--accent) 35%,transparent),0 8px 24px #0002}
+ .quick button:hover,.tabs button:hover,.btn:hover{transform:translateY(-2px)}
+ #nova-nav .nav button:hover{background:color-mix(in srgb,var(--accent) 18%,transparent);transform:scale(1.07)}
+ #nova-nav .nav button.active:hover{filter:brightness(1.15)}
+ .subject>button:hover{background:var(--raised)}
+}
+@media(min-width:1150px){
+ .shell{width:100%;max-width:1480px}
+ .layout{grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr)}
+ .list,.panel,.metrics{min-width:0}
+ .list-row .body{min-width:0;overflow-wrap:anywhere}
+ .tabs{overflow-x:auto}
+ .sheet{border-radius:24px;max-height:min(85vh,850px)}
+}
+@media(max-width:740px){
+ input,textarea,select{font-size:16px!important}
+ .sheet{max-height:calc(100dvh - env(safe-area-inset-top) - 18px);overscroll-behavior:contain}
+}
+html{overflow-anchor:auto}
+#nova-content{min-width:0}
+#nova-content .page{animation:none}
+#nova-content.page-enter .page{animation:nova-page-in .25s cubic-bezier(.22,1,.36,1) both}
+@media(prefers-reduced-motion:reduce){#nova-content.page-enter .page{animation:none!important}}
