@@ -16,3 +16,7 @@
 .horoscope-message{line-height:1.6;font-size:15px}
 @keyframes funfill{from{transform:scaleX(.1);transform-origin:left}to{transform:scaleX(1);transform-origin:left}}
 @media(prefers-reduced-motion:reduce){.fun-chaos-track i{animation:none}}
+
+/* v17.3 compact home without university banner */
+.shell>.top{margin-bottom:16px}.page>.layout{margin-top:4px}
+@media(max-width:740px){.shell{padding-top:calc(env(safe-area-inset-top) + 12px)}}
