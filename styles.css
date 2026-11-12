@@ -152,3 +152,17 @@ html,body{max-width:100%;overflow-x:clip}
  #nova-nav .nav .nav-indicator{transition:transform 500ms cubic-bezier(.18,1.15,.3,1),scale 250ms cubic-bezier(.2,1.2,.3,1),box-shadow 250ms ease}
 }
 @media(prefers-reduced-motion:reduce){#nova-nav .nav.nav-dragging .nav-indicator{scale:1!important}}
+
+/* v19.0.6: bounded liquid selection, press-and-slide touch and tactile controls. */
+@media(max-width:1149px){
+ #nova-nav .nav{touch-action:none;overscroll-behavior:contain}
+ #nova-nav .nav-indicator{left:8px;width:calc((100% - 10px)/5 - 6px);border-radius:29px;transform-origin:center;pointer-events:none}
+ #nova-nav .nav button{touch-action:none;-webkit-user-select:none;user-select:none}
+ #nova-nav .nav.nav-dragging .nav-indicator{scale:1 1.10;filter:brightness(1.09);box-shadow:inset 0 1px 0 #ffffff90,0 7px 20px #378be970}
+ #nova-nav .nav.nav-dragging button.drag-hover .icon{transform:scale(1.15)}
+}
+/* Subtle press response for actionable controls, excluding destructive/disabled buttons. */
+@media(hover:hover) and (pointer:fine){.btn:not(:disabled):hover,.quick button:hover,.tabs button:hover,.study-grid button:hover{filter:brightness(1.06);transform:translateY(-1px)}}
+.btn:not(:disabled),.quick button,.tabs button,.study-grid button,.day,.schedule-days button{transition:transform .25s cubic-bezier(.2,1.3,.3,1),filter .25s ease,box-shadow .25s ease}
+.btn:not(:disabled):active,.quick button:active,.tabs button:active,.study-grid button:active,.day:active,.schedule-days button:active{transform:scale(.955);filter:brightness(1.08)}
+@media(prefers-reduced-motion:reduce){.btn,.quick button,.tabs button,.study-grid button,.day,.schedule-days button{transition:none!important}}

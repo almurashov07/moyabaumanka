@@ -31,7 +31,7 @@ const weekday=d=>d.toLocaleDateString('ru-RU',{weekday:'long',day:'numeric',mont
 const btn=(label,act,cls='')=>`<button class="btn ${cls}" data-action="${act}">${label}</button>`;
 const section=(title,sub='')=>`<div class="section-head"><h2>${title}</h2><span class="small muted">${sub}</span></div>`;
 function head(){const titles={home:'Привет, '+e((data.name||'Александр').split(' ')[0])+'!',schedule:'Расписание',tasks:'Задания',study:'Учёба',calendar:'Календарь',profile:'Профиль',fun:'Развлечения'};return `<header class="top"><div class="top-left"><div class="kicker">BAUMAN NOVA · ИУ5-14/4</div><h1>${titles[ui.page]}</h1>${ui.page==='home'?`<div class="weather-chip" id="nova-weather" aria-live="polite">${e(ui.weather)}</div>`:''}</div><button class="avatar" data-action="profile" aria-label="Открыть профиль">${data.avatar?`<img src="${e(data.avatar)}" alt="Аватар">`:I('user',26)}</button></header>`}
-function nav(){let pages=['home','schedule','tasks','study','calendar'],idx=pages.indexOf(ui.page);return `<nav class="nav" aria-label="Основные разделы"><div class="nav-indicator" style="transform:translateX(${Math.max(0,idx)*100}%)"></div>${pages.map((p,i)=>`<button data-action="page:${p}" class="${ui.page===p?'active':''}" aria-label="${['Главная','Пары','Задания','Учёба','Календарь'][i]}" aria-current="${ui.page===p?'page':'false'}">${I(p)}</button>`).join('')}</nav>`}
+function nav(){let pages=['home','schedule','tasks','study','calendar'],idx=pages.indexOf(ui.page);return `<nav class="nav" aria-label="Основные разделы"><div class="nav-indicator" style="transform:translateX(calc(${Math.max(0,idx)*100}% + ${Math.max(0,idx)*6}px))"></div>${pages.map((p,i)=>`<button data-action="page:${p}" class="${ui.page===p?'active':''}" aria-label="${['Главная','Пары','Задания','Учёба','Календарь'][i]}" aria-current="${ui.page===p?'page':'false'}">${I(p)}</button>`).join('')}</nav>`}
 function home(){let a=activeLesson(),l=a.lesson,delta=l?(a.current?minutes(l.end)-a.n:minutes(l.start)-a.n):0,progress=l&&a.current?Math.max(0,Math.min(100,100*(a.n-minutes(l.start))/(minutes(l.end)-minutes(l.start)))):0;let nextTasks=data.tasks.filter(t=>!done(t)).sort((x,y)=>(x.date||'9999').localeCompare(y.date||'9999')).slice(0,4);let actions=[['schedule','Расписание'],['tasks','Задания'],['study','Баллы'],['calendar','Календарь'],['fun','Развлечения'],['exams','Экзамены'],['subjects','Предметы']];return `<div class="page"><div class="sub" style="margin:-10px 0 16px">${weekday(today())} · ${parityName(today())}</div><div class="layout"><div class="stack">${section('Учебный день',`${lessons(today()).length} пар`)}<div class="panel lesson-focus" data-action="page:schedule" role="button" tabindex="0"><div class="kicker" style="color:#c4e0ff"><span id="nova-lesson-state">${a.current?'● ПАРА СЕЙЧАС':a.next?'◉ СЛЕДУЮЩАЯ ПАРА':'○ СВОБОДНОЕ ВРЕМЯ'}</span></div><h2>${l?e(S[l.sub]||l.sub):'На сегодня всё'}</h2><div class="sub">${l?`${e(l.start)}–${e(l.end)} · ${e(l.room||'Аудитория не указана')}<br>${e(l.building||'')} ${l.teacher?'· '+e(l.teacher):''}`:'Все занятия на сегодня завершены'}</div>${l?`<div class="between" style="margin-top:16px"><span class="small" style="color:#d2e4fb">${a.current?'До конца пары':'До начала пары'}</span><strong id="nova-lesson-countdown">${delta>60?Math.floor(delta/60)+' ч '+delta%60+' мин':delta+' мин'}</strong></div><div class="progress"><i id="nova-lesson-progress" style="width:${progress}%"></i></div>`:''}</div>${section('Быстрый доступ')}<div class="quick">${actions.map(([p,t])=>`<button data-action="${p==='exams'?'study:exams':p==='subjects'?'subjects':'page:'+p}">${I(p==='fun'?'sun':p==='exams'?'book':p==='subjects'?'study':p)}<span>${t}</span></button>`).join('')}</div></div><div class="stack">${section('Мой прогресс','Живые данные')}<div class="metrics"><div class="metric" data-action="page:tasks" role="button"><small>Задания готовы</small><strong>${data.tasks.filter(done).length}<span style="font-size:13px;color:var(--muted)"> / ${data.tasks.length}</span></strong><div class="progress" style="background:var(--raised)"><i style="width:${data.tasks.length?100*data.tasks.filter(done).length/data.tasks.length:0}%"></i></div></div><div class="metric" data-action="study:scores" role="button"><small>Предметов с баллами</small><strong>${Object.keys(S).filter(k=>data.scores.some(s=>s.sub===k)).length}<span style="font-size:13px;color:var(--muted)"> / ${Object.keys(S).length}</span></strong><div class="progress" style="background:var(--raised)"><i style="width:${100*Object.keys(S).filter(k=>data.scores.some(s=>s.sub===k)).length/Object.keys(S).length}%"></i></div></div></div>${section('Ближайшие дела','До 4 задач')}<div class="list">${nextTasks.map(t=>`<div class="list-row"><span class="symbol">${I('check')}</span><div class="body"><strong>${e(t.title)}</strong><small>${e(S[t.sub]||t.sub)} · ${dmy(t.date)}</small></div></div>`).join('')||'<div class="empty">Активных заданий нет</div>'}</div></div></div></div>`}
 function schedulePage(){let d=ui.date,arr=lessons(d);return `<div class="page">${section('Неделя и занятия',parityName(d))}<div class="panel"><div class="between"><div class="row-actions">${btn('←','date:-7')}${btn('Сегодня','date:today')}${btn('→','date:7')}</div><button class="pill" data-action="week">${parityName(d)} ⇄</button></div><div class="sub" style="margin-top:12px">${weekday(d)}</div><div class="schedule-days">${Array.from({length:5},(_,i)=>{let v=add(d,i-((d.getDay()+6)%7));return `<button class="${dateISO(v)===dateISO(d)?'selected':''}" data-action="date:${dateISO(v)}">${['Пн','Вт','Ср','Чт','Пт'][i]}<br>${v.getDate()}</button>`}).join('')}</div></div>${section('Пары',`${arr.length} занятий`)}<div class="list">${arr.map((l,i)=>{let n=today(),active=dateISO(n)===dateISO(d)&&minutes(l.start)<=n.getHours()*60+n.getMinutes()&&n.getHours()*60+n.getMinutes()<minutes(l.end);return `<div class="list-row" style="${active?'border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)':''}"><div class="symbol">${I('clock')}</div><div class="body"><strong>${e(S[l.sub]||l.sub)}</strong><small>${e(l.start)}–${e(l.end)} · ${e(l.room||'Без аудитории')}<br>${e(l.teacher||l.building||'')}</small></div><span class="pill">${active?'Сейчас':e(l.kind||'Пара')}</span></div>`}).join('')||'<div class="empty">Занятий нет</div>'}</div>${section('Изменения расписания','На выбранный день')}<div class="panel"><div class="sub">Отмена или перенос действует только на конкретную дату.</div><div style="height:10px"></div>${btn('Изменить пару','sheet:change','primary')}${data.changes.filter(c=>c.date===dateISO(d)).map(c=>`<div class="field"><label>${c.mode==='cancel'?'Отмена':'Перенос'} · пара №${Number(c.index)+1}</label>${btn('Удалить','removechange:'+data.changes.indexOf(c))}</div>`).join('')}</div></div>`}
 function tasksPage(){const archived=t=>done(t);const items=data.tasks.filter(t=>(taskView.tab==='archive'?archived(t):!archived(t))&&(taskView.subject==='all'||t.sub===taskView.subject)).sort((a,b)=>taskView.sort==='subject'?(S[a.sub]||a.sub||'').localeCompare(S[b.sub]||b.sub||''):(a.date||'9999-99-99').localeCompare(b.date||'9999-99-99'));const count=data.tasks.filter(t=>!done(t)).length;return `<div class="page">${section('Учебные дела',`${count} активных`)}<div class="between" style="margin-bottom:14px"><div class="sub">Задания по предметам и срокам</div>${btn(I('plus')+' Добавить','sheet:task','primary')}</div><div class="task-tabs" role="group" aria-label="Задания"><button class="btn ${taskView.tab==='active'?'primary':''}" data-action="tasktab:active">Активные · ${count}</button><button class="btn ${taskView.tab==='archive'?'primary':''}" data-action="tasktab:archive">Архив · ${data.tasks.length-count}</button></div><div class="task-filters"><label>Предмет<select id="task-subject" class="input"><option value="all">Все предметы</option>${Object.entries(S).map(([k,n])=>`<option value="${e(k)}" ${taskView.subject===k?'selected':''}>${e(n)}</option>`).join('')}</select></label><label>Сортировка<select id="task-sort" class="input"><option value="date" ${taskView.sort==='date'?'selected':''}>По дедлайну</option><option value="subject" ${taskView.sort==='subject'?'selected':''}>По предмету</option></select></label></div><div class="list" id="task-results">${items.map(t=>`<div class="list-row task-item"><button class="symbol" style="border:0" data-action="tasktoggle:${t.id}" aria-label="${archived(t)?'Вернуть в активные':'Отметить выполненным'}">${I(archived(t)?'check':'clock')}</button><div class="body"><strong>${e(t.title)}</strong><small>${e(S[t.sub]||t.sub)} · ${dmy(t.date)} · ${e(t.status)}${t.note?' · '+e(t.note):''}</small></div><button class="btn" data-action="taskedit:${t.id}" aria-label="Редактировать задание">${I('settings',17)}</button></div>`).join('')||`<div class="empty">${taskView.tab==='archive'?'В архиве пока нет заданий':'Активных заданий нет'}</div>`}</div></div>`}
@@ -66,7 +66,7 @@ function dailyHoroscope(sign, day){
 const funAdvice=['Совет дня: открой конспект хотя бы на пять минут. Космос охуеет от неожиданности.','Талисман дня: рабочая ручка. Редкий артефакт, не потеряй.','Счастливое число: 2. Столько вкладок браузера закрой перед учёбой.','Космический лайфхак: сначала сохрани файл, потом экспериментируй.','Не спорь с компилятором. Он упрямее тебя и, к сожалению, прав чаще.','Звёзды советуют нормально поесть и выспаться. Да, даже гороскоп устал от твоего расписания.'];
 function funPage(){let day=Math.floor(new Date().setHours(0,0,0,0)/86400000),signIndex=zodiacSigns.indexOf(fun.sign),forecast=dailyHoroscope(fun.sign,new Date()),advice=funAdvice[((day+signIndex*3)%funAdvice.length+funAdvice.length)%funAdvice.length],chaos=25+((day*17+signIndex*29)%76);return `<div class="page fun-page"><div class="fun-intro"><span class="kicker">BAUMAN · AFTER HOURS</span><h2>Перерыв тоже по расписанию</h2><p>Немного безумия между дедлайнами. Хомяк и 2160 вариантов космической катастрофы.</p></div><div class="fun-grid"><section class="panel hamster-panel"><div class="between"><div><div class="kicker">МИНИ-ИГРА</div><h2>Бауманский хомяк</h2></div><span class="pill">Без доната</span></div><p class="sub">Нажимай на хомяка и собирай виртуальные тапсы. Никакой крипты, только наука и щёки.</p><button id="hamster-button" class="hamster-button" data-action="hamster" aria-label="Тапнуть хомяка">${hamsterFace()}</button><div class="hamster-score-label">ТВОИ ТАПСЫ</div><div id="hamster-score" class="hamster-score" aria-live="polite">${fun.taps.toLocaleString('ru-RU')}</div><button class="btn" data-action="hamsterreset">Сбросить счётчик</button>${hamsterWardrobe()}</section><section class="panel horoscope-panel"><div class="kicker">КОСМИЧЕСКИЙ ПИЗДЕЦ</div><h2>Ебанутый гороскоп</h2><p class="sub">Сатирический прогноз, основанный на чистом абсурде. Звёзды за твои оценки не отвечают.</p><label class="fun-select-label">Твой знак зодиака<select class="input" id="zodiac-select" aria-label="Знак зодиака">${zodiacSigns.map(z=>`<option ${fun.sign===z?'selected':''}>${z}</option>`).join('')}</select></label><div class="zodiac-orbit"><div class="zodiac-star">✦</div><div class="zodiac-name">${e(fun.sign)}</div><div class="zodiac-date">${weekday(today())}</div></div><div class="fun-chaos"><div class="between"><span>УРОВЕНЬ АКАДЕМИЧЕСКОГО ПИЗДЕЦА</span><strong>${chaos}%</strong></div><div class="fun-chaos-track"><i style="width:${chaos}%"></i></div></div><div class="horoscope-message">${e(forecast)}</div><div class="fun-advice">${e(advice)}</div><div class="sub">180 неповторяющихся дней для каждого знака. Всё это шутка, а не реальное предсказание.</div></section></div></div>`}
 
-function render(){const pages={home,schedule:schedulePage,tasks:tasksPage,study:studyPage,calendar:calendarPage,profile:profilePage,fun:funPage};const app=document.getElementById('app');if(!app.querySelector('#nova-content'))app.innerHTML='<main id="nova-content" class="shell"></main><div id="nova-nav"></div><div id="nova-sheet"></div>';const main=app.querySelector('#nova-content');const next=head()+(pages[ui.page]||home)();const changing=main.dataset.page!==ui.page;if(changing){main.dataset.page=ui.page;main.classList.remove('page-enter');void main.offsetWidth;main.classList.add('page-enter')}else main.classList.remove('page-enter');main.innerHTML=next;const navigation=app.querySelector('#nova-nav');if(!navigation.querySelector('.nav')){navigation.innerHTML=nav();navigation.dataset.page=ui.page}else if(navigation.dataset.page!==ui.page){const pages=['home','schedule','tasks','study','calendar'];const idx=pages.indexOf(ui.page);const bar=navigation.querySelector('.nav');const indicator=bar.querySelector('.nav-indicator');const previous=pages.indexOf(navigation.dataset.page);bar.querySelectorAll('button[data-action^="page:"]').forEach((button,i)=>{const active=i===idx;button.classList.toggle('active',active);button.setAttribute('aria-current',active?'page':'false')});if(indicator&&idx>=0){indicator.style.transform=`translateX(${idx*100}%)`;indicator.classList.remove('nav-indicator-moving');void indicator.offsetWidth;indicator.classList.add('nav-indicator-moving');indicator.style.setProperty('--nav-direction',String(Math.sign(idx-previous)||1))}navigation.dataset.page=ui.page}app.querySelector('#nova-sheet').innerHTML=sheet();applyTheme(localStorage.getItem('nova_theme')||'dark')}
+function render(){const pages={home,schedule:schedulePage,tasks:tasksPage,study:studyPage,calendar:calendarPage,profile:profilePage,fun:funPage};const app=document.getElementById('app');if(!app.querySelector('#nova-content'))app.innerHTML='<main id="nova-content" class="shell"></main><div id="nova-nav"></div><div id="nova-sheet"></div>';const main=app.querySelector('#nova-content');const next=head()+(pages[ui.page]||home)();const changing=main.dataset.page!==ui.page;if(changing){main.dataset.page=ui.page;main.classList.remove('page-enter');void main.offsetWidth;main.classList.add('page-enter')}else main.classList.remove('page-enter');main.innerHTML=next;const navigation=app.querySelector('#nova-nav');if(!navigation.querySelector('.nav')){navigation.innerHTML=nav();navigation.dataset.page=ui.page}else if(navigation.dataset.page!==ui.page){const pages=['home','schedule','tasks','study','calendar'];const idx=pages.indexOf(ui.page);const bar=navigation.querySelector('.nav');const indicator=bar.querySelector('.nav-indicator');const previous=pages.indexOf(navigation.dataset.page);bar.querySelectorAll('button[data-action^="page:"]').forEach((button,i)=>{const active=i===idx;button.classList.toggle('active',active);button.setAttribute('aria-current',active?'page':'false')});if(indicator&&idx>=0){indicator.style.transform=`translateX(calc(${idx*100}% + ${idx*6}px))`;indicator.classList.remove('nav-indicator-moving');void indicator.offsetWidth;indicator.classList.add('nav-indicator-moving');indicator.style.setProperty('--nav-direction',String(Math.sign(idx-previous)||1))}navigation.dataset.page=ui.page}app.querySelector('#nova-sheet').innerHTML=sheet();applyTheme(localStorage.getItem('nova_theme')||'dark')}
 function renderSheet(){const host=document.getElementById('nova-sheet');if(host)host.innerHTML=sheet()}
 function refreshHomeStatus(){if(ui.page!=='home'||ui.sheet)return;const root=document.getElementById('nova-content');if(!root)return;const w=root.querySelector('#nova-weather');if(w&&w.textContent!==ui.weather)w.textContent=ui.weather;const a=activeLesson(),l=a.lesson,n=a.n;const label=root.querySelector('#nova-lesson-state');const newState=a.current?'● ПАРА СЕЙЧАС':a.next?'◉ СЛЕДУЮЩАЯ ПАРА':'○ СВОБОДНОЕ ВРЕМЯ';if(label&&label.textContent!==newState){renderPreservingPosition();return}const countdown=root.querySelector('#nova-lesson-countdown');if(l&&countdown){const delta=a.current?minutes(l.end)-n:minutes(l.start)-n;countdown.textContent=delta>60?Math.floor(delta/60)+' ч '+delta%60+' мин':delta+' мин'}const bar=root.querySelector('#nova-lesson-progress');if(bar&&l&&a.current)bar.style.width=Math.max(0,Math.min(100,100*(n-minutes(l.start))/(minutes(l.end)-minutes(l.start))))+'%'}
 
@@ -111,59 +111,62 @@ if('serviceWorker'in navigator&&location.protocol.startsWith('http'))navigator.s
 function initSmartNav(){let last=window.scrollY,travel=0,hidden=false;const show=()=>{hidden=false;document.documentElement.classList.remove('nav-hidden')};window.addEventListener('scroll',()=>{if(matchMedia('(min-width:1150px)').matches||document.querySelector('.sheet-backdrop')){show();last=window.scrollY;return}const y=Math.max(0,window.scrollY),delta=y-last;if(y<35){show();travel=0}else if(Math.abs(delta)>1){travel=delta>0?Math.max(0,travel)+delta:Math.min(0,travel)+delta;if(travel>28&&!hidden){hidden=true;document.documentElement.classList.add('nav-hidden');travel=0}else if(travel< -18&&hidden){show();travel=0}}last=y},{passive:true});document.addEventListener('focusin',ev=>{if(ev.target.matches('input,textarea,select'))show()});document.addEventListener('click',ev=>{if(ev.target.closest('#nova-nav'))show()});window.addEventListener('resize',()=>{if(matchMedia('(min-width:1150px)').matches)show()})}
 
 
-// v19.0.5: press, drag and release to select a bottom navigation tab.
-// Keep the actual navigation persistent, and leave taps and desktop clicks intact.
+// v19.0.6: iOS-friendly press-and-slide navigation with pointer capture.
 (function initDragNavigation(){
   const pages=['home','schedule','tasks','study','calendar'];
-  let drag=null, ignoreClickUntil=0;
-  const reduced=()=>window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const targetIndex=(bar,x)=>{
+  let gesture=null, suppressClickUntil=0;
+  const indexAt=(bar,x)=>{
     const r=bar.getBoundingClientRect();
-    return Math.max(0,Math.min(4,Math.floor((x-r.left)/r.width*5)));
+    return Math.max(0,Math.min(4,Math.floor((x-r.left-5)/(r.width-10)*5)));
   };
-  const setVisual=(bar,x)=>{
+  const visual=(bar,x)=>{
+    const r=bar.getBoundingClientRect(),slot=(r.width-10)/5;
     const pill=bar.querySelector('.nav-indicator');
     if(!pill)return;
-    const r=bar.getBoundingClientRect(), slot=(r.width-10)/5;
-    const left=Math.max(0,Math.min(r.width-10-slot,x-r.left-slot/2));
-    pill.style.transform=`translateX(${left}px)`;
-    const index=targetIndex(bar,x);
-    bar.querySelectorAll('button[data-action^="page:"]').forEach((button,i)=>button.classList.toggle('drag-hover',i===index));
-    return index;
+    // Pill has 3px internal margins: it never crosses either rounded edge.
+    const offset=Math.max(0,Math.min(slot*4,x-r.left-5-slot/2));
+    pill.style.transform=`translateX(${offset}px)`;
+    const index=indexAt(bar,x);
+    bar.querySelectorAll('button[data-action^="page:"]').forEach((b,i)=>b.classList.toggle('drag-hover',i===index));
+  };
+  const snap=(bar,index)=>{
+    const pill=bar.querySelector('.nav-indicator');
+    if(pill)pill.style.transform=`translateX(calc(${index*100}% + ${index*6}px))`;
   };
   document.addEventListener('pointerdown',ev=>{
     const button=ev.target instanceof Element?ev.target.closest('#nova-nav .nav button[data-action^="page:"]'):null;
     if(!button||ev.button!==0||matchMedia('(min-width:1150px)').matches)return;
     const bar=button.closest('.nav');
-    drag={id:ev.pointerId,bar,startX:ev.clientX,startY:ev.clientY,x:ev.clientX,active:false,original:pages.indexOf(ui.page)};
+    gesture={id:ev.pointerId,button,bar,x:ev.clientX,y:ev.clientY,initial:pages.indexOf(ui.page),moved:false};
+    try{button.setPointerCapture(ev.pointerId)}catch(_){/* Safari may refuse capture */}
+    bar.classList.add('nav-dragging');
+    document.documentElement.classList.remove('nav-hidden');
+    visual(bar,ev.clientX);
   },{passive:true});
-  window.addEventListener('pointermove',ev=>{
-    if(!drag||ev.pointerId!==drag.id)return;
-    const d=drag;d.x=ev.clientX;
-    if(!d.active&&Math.hypot(ev.clientX-d.startX,ev.clientY-d.startY)>7){
-      d.active=true;d.bar.classList.add('nav-dragging');
-      document.documentElement.classList.remove('nav-hidden');
-      if(navigator.vibrate)navigator.vibrate(8);
-    }
-    if(d.active){if(ev.cancelable)ev.preventDefault();setVisual(d.bar,ev.clientX)}
+  document.addEventListener('pointermove',ev=>{
+    const g=gesture;if(!g||ev.pointerId!==g.id)return;
+    if(Math.abs(ev.clientX-g.x)>5||Math.abs(ev.clientY-g.y)>5)g.moved=true;
+    if(ev.cancelable)ev.preventDefault();
+    visual(g.bar,ev.clientX);
   },{passive:false});
   const finish=(ev,cancelled)=>{
-    if(!drag||ev.pointerId!==drag.id)return;
-    const d=drag;drag=null;
-    if(!d.active)return;
-    ignoreClickUntil=performance.now()+450;
-    d.bar.classList.remove('nav-dragging');
-    d.bar.querySelectorAll('.drag-hover').forEach(b=>b.classList.remove('drag-hover'));
-    const index=cancelled?d.original:targetIndex(d.bar,d.x);
-    const pill=d.bar.querySelector('.nav-indicator');
-    if(pill){pill.style.transform=`translateX(${Math.max(0,index)*100}%)`;pill.classList.remove('nav-indicator-moving');}
-    if(index>=0&&pages[index]!==ui.page){changePage(pages[index])}
+    const g=gesture;if(!g||ev.pointerId!==g.id)return;
+    gesture=null;
+    const index=cancelled?Math.max(0,g.initial):indexAt(g.bar,ev.clientX);
+    g.bar.classList.remove('nav-dragging');
+    g.bar.querySelectorAll('.drag-hover').forEach(b=>b.classList.remove('drag-hover'));
+    snap(g.bar,index);
+    // Suppress the synthetic click after touch release; navigate exactly once.
+    suppressClickUntil=performance.now()+650;
+    if(!cancelled&&pages[index]!==ui.page)changePage(pages[index]);
+    else if(cancelled)snap(g.bar,Math.max(0,pages.indexOf(ui.page)));
+    try{if(g.button.hasPointerCapture(ev.pointerId))g.button.releasePointerCapture(ev.pointerId)}catch(_){}
   };
-  window.addEventListener('pointerup',ev=>finish(ev,false));
-  window.addEventListener('pointercancel',ev=>finish(ev,true));
+  document.addEventListener('pointerup',ev=>finish(ev,false));
+  document.addEventListener('pointercancel',ev=>finish(ev,true));
   document.addEventListener('click',ev=>{
-    if(performance.now()<ignoreClickUntil&&ev.target instanceof Element&&ev.target.closest('#nova-nav .nav')){
+    if(performance.now()<suppressClickUntil&&ev.target instanceof Element&&ev.target.closest('#nova-nav .nav')){
       ev.preventDefault();ev.stopImmediatePropagation();
     }
   },true);
-})();
+})();;
