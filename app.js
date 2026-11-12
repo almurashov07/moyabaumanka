@@ -66,7 +66,7 @@ function dailyHoroscope(sign, day){
 const funAdvice=['Совет дня: открой конспект хотя бы на пять минут. Космос охуеет от неожиданности.','Талисман дня: рабочая ручка. Редкий артефакт, не потеряй.','Счастливое число: 2. Столько вкладок браузера закрой перед учёбой.','Космический лайфхак: сначала сохрани файл, потом экспериментируй.','Не спорь с компилятором. Он упрямее тебя и, к сожалению, прав чаще.','Звёзды советуют нормально поесть и выспаться. Да, даже гороскоп устал от твоего расписания.'];
 function funPage(){let day=Math.floor(new Date().setHours(0,0,0,0)/86400000),signIndex=zodiacSigns.indexOf(fun.sign),forecast=dailyHoroscope(fun.sign,new Date()),advice=funAdvice[((day+signIndex*3)%funAdvice.length+funAdvice.length)%funAdvice.length],chaos=25+((day*17+signIndex*29)%76);return `<div class="page fun-page"><div class="fun-intro"><span class="kicker">BAUMAN · AFTER HOURS</span><h2>Перерыв тоже по расписанию</h2><p>Немного безумия между дедлайнами. Хомяк и 2160 вариантов космической катастрофы.</p></div><div class="fun-grid"><section class="panel hamster-panel"><div class="between"><div><div class="kicker">МИНИ-ИГРА</div><h2>Бауманский хомяк</h2></div><span class="pill">Без доната</span></div><p class="sub">Нажимай на хомяка и собирай виртуальные тапсы. Никакой крипты, только наука и щёки.</p><button id="hamster-button" class="hamster-button" data-action="hamster" aria-label="Тапнуть хомяка">${hamsterFace()}</button><div class="hamster-score-label">ТВОИ ТАПСЫ</div><div id="hamster-score" class="hamster-score" aria-live="polite">${fun.taps.toLocaleString('ru-RU')}</div><button class="btn" data-action="hamsterreset">Сбросить счётчик</button>${hamsterWardrobe()}</section><section class="panel horoscope-panel"><div class="kicker">КОСМИЧЕСКИЙ ПИЗДЕЦ</div><h2>Ебанутый гороскоп</h2><p class="sub">Сатирический прогноз, основанный на чистом абсурде. Звёзды за твои оценки не отвечают.</p><label class="fun-select-label">Твой знак зодиака<select class="input" id="zodiac-select" aria-label="Знак зодиака">${zodiacSigns.map(z=>`<option ${fun.sign===z?'selected':''}>${z}</option>`).join('')}</select></label><div class="zodiac-orbit"><div class="zodiac-star">✦</div><div class="zodiac-name">${e(fun.sign)}</div><div class="zodiac-date">${weekday(today())}</div></div><div class="fun-chaos"><div class="between"><span>УРОВЕНЬ АКАДЕМИЧЕСКОГО ПИЗДЕЦА</span><strong>${chaos}%</strong></div><div class="fun-chaos-track"><i style="width:${chaos}%"></i></div></div><div class="horoscope-message">${e(forecast)}</div><div class="fun-advice">${e(advice)}</div><div class="sub">180 неповторяющихся дней для каждого знака. Всё это шутка, а не реальное предсказание.</div></section></div></div>`}
 
-function render(){const pages={home,schedule:schedulePage,tasks:tasksPage,study:studyPage,calendar:calendarPage,profile:profilePage,fun:funPage};const app=document.getElementById('app');if(!app.querySelector('#nova-content'))app.innerHTML='<main id="nova-content" class="shell"></main><div id="nova-nav"></div><div id="nova-sheet"></div>';const main=app.querySelector('#nova-content');const next=head()+(pages[ui.page]||home)();const changing=main.dataset.page!==ui.page;if(changing){main.dataset.page=ui.page;main.classList.remove('page-enter');void main.offsetWidth;main.classList.add('page-enter')}else main.classList.remove('page-enter');main.innerHTML=next;const navigation=app.querySelector('#nova-nav');if(navigation.dataset.page!==ui.page){navigation.innerHTML=nav();navigation.dataset.page=ui.page}app.querySelector('#nova-sheet').innerHTML=sheet();applyTheme(localStorage.getItem('nova_theme')||'dark')}
+function render(){const pages={home,schedule:schedulePage,tasks:tasksPage,study:studyPage,calendar:calendarPage,profile:profilePage,fun:funPage};const app=document.getElementById('app');if(!app.querySelector('#nova-content'))app.innerHTML='<main id="nova-content" class="shell"></main><div id="nova-nav"></div><div id="nova-sheet"></div>';const main=app.querySelector('#nova-content');const next=head()+(pages[ui.page]||home)();const changing=main.dataset.page!==ui.page;if(changing){main.dataset.page=ui.page;main.classList.remove('page-enter');void main.offsetWidth;main.classList.add('page-enter')}else main.classList.remove('page-enter');main.innerHTML=next;const navigation=app.querySelector('#nova-nav');if(!navigation.querySelector('.nav')){navigation.innerHTML=nav();navigation.dataset.page=ui.page}else if(navigation.dataset.page!==ui.page){const pages=['home','schedule','tasks','study','calendar'];const idx=pages.indexOf(ui.page);const bar=navigation.querySelector('.nav');const indicator=bar.querySelector('.nav-indicator');const previous=pages.indexOf(navigation.dataset.page);bar.querySelectorAll('button[data-action^="page:"]').forEach((button,i)=>{const active=i===idx;button.classList.toggle('active',active);button.setAttribute('aria-current',active?'page':'false')});if(indicator&&idx>=0){indicator.style.transform=`translateX(${idx*100}%)`;indicator.classList.remove('nav-indicator-moving');void indicator.offsetWidth;indicator.classList.add('nav-indicator-moving');indicator.style.setProperty('--nav-direction',String(Math.sign(idx-previous)||1))}navigation.dataset.page=ui.page}app.querySelector('#nova-sheet').innerHTML=sheet();applyTheme(localStorage.getItem('nova_theme')||'dark')}
 function renderSheet(){const host=document.getElementById('nova-sheet');if(host)host.innerHTML=sheet()}
 function refreshHomeStatus(){if(ui.page!=='home'||ui.sheet)return;const root=document.getElementById('nova-content');if(!root)return;const w=root.querySelector('#nova-weather');if(w&&w.textContent!==ui.weather)w.textContent=ui.weather;const a=activeLesson(),l=a.lesson,n=a.n;const label=root.querySelector('#nova-lesson-state');const newState=a.current?'● ПАРА СЕЙЧАС':a.next?'◉ СЛЕДУЮЩАЯ ПАРА':'○ СВОБОДНОЕ ВРЕМЯ';if(label&&label.textContent!==newState){renderPreservingPosition();return}const countdown=root.querySelector('#nova-lesson-countdown');if(l&&countdown){const delta=a.current?minutes(l.end)-n:minutes(l.start)-n;countdown.textContent=delta>60?Math.floor(delta/60)+' ч '+delta%60+' мин':delta+' мин'}const bar=root.querySelector('#nova-lesson-progress');if(bar&&l&&a.current)bar.style.width=Math.max(0,Math.min(100,100*(n-minutes(l.start))/(minutes(l.end)-minutes(l.start))))+'%'}
 
@@ -109,3 +109,61 @@ if('serviceWorker'in navigator&&location.protocol.startsWith('http'))navigator.s
 
 // v18: smart mobile tab bar. Ignore micro-scroll, keyboard resizing and desktop sidebar.
 function initSmartNav(){let last=window.scrollY,travel=0,hidden=false;const show=()=>{hidden=false;document.documentElement.classList.remove('nav-hidden')};window.addEventListener('scroll',()=>{if(matchMedia('(min-width:1150px)').matches||document.querySelector('.sheet-backdrop')){show();last=window.scrollY;return}const y=Math.max(0,window.scrollY),delta=y-last;if(y<35){show();travel=0}else if(Math.abs(delta)>1){travel=delta>0?Math.max(0,travel)+delta:Math.min(0,travel)+delta;if(travel>28&&!hidden){hidden=true;document.documentElement.classList.add('nav-hidden');travel=0}else if(travel< -18&&hidden){show();travel=0}}last=y},{passive:true});document.addEventListener('focusin',ev=>{if(ev.target.matches('input,textarea,select'))show()});document.addEventListener('click',ev=>{if(ev.target.closest('#nova-nav'))show()});window.addEventListener('resize',()=>{if(matchMedia('(min-width:1150px)').matches)show()})}
+
+
+// v19.0.5: press, drag and release to select a bottom navigation tab.
+// Keep the actual navigation persistent, and leave taps and desktop clicks intact.
+(function initDragNavigation(){
+  const pages=['home','schedule','tasks','study','calendar'];
+  let drag=null, ignoreClickUntil=0;
+  const reduced=()=>window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const targetIndex=(bar,x)=>{
+    const r=bar.getBoundingClientRect();
+    return Math.max(0,Math.min(4,Math.floor((x-r.left)/r.width*5)));
+  };
+  const setVisual=(bar,x)=>{
+    const pill=bar.querySelector('.nav-indicator');
+    if(!pill)return;
+    const r=bar.getBoundingClientRect(), slot=(r.width-10)/5;
+    const left=Math.max(0,Math.min(r.width-10-slot,x-r.left-slot/2));
+    pill.style.transform=`translateX(${left}px)`;
+    const index=targetIndex(bar,x);
+    bar.querySelectorAll('button[data-action^="page:"]').forEach((button,i)=>button.classList.toggle('drag-hover',i===index));
+    return index;
+  };
+  document.addEventListener('pointerdown',ev=>{
+    const button=ev.target instanceof Element?ev.target.closest('#nova-nav .nav button[data-action^="page:"]'):null;
+    if(!button||ev.button!==0||matchMedia('(min-width:1150px)').matches)return;
+    const bar=button.closest('.nav');
+    drag={id:ev.pointerId,bar,startX:ev.clientX,startY:ev.clientY,x:ev.clientX,active:false,original:pages.indexOf(ui.page)};
+  },{passive:true});
+  window.addEventListener('pointermove',ev=>{
+    if(!drag||ev.pointerId!==drag.id)return;
+    const d=drag;d.x=ev.clientX;
+    if(!d.active&&Math.hypot(ev.clientX-d.startX,ev.clientY-d.startY)>7){
+      d.active=true;d.bar.classList.add('nav-dragging');
+      document.documentElement.classList.remove('nav-hidden');
+      if(navigator.vibrate)navigator.vibrate(8);
+    }
+    if(d.active){if(ev.cancelable)ev.preventDefault();setVisual(d.bar,ev.clientX)}
+  },{passive:false});
+  const finish=(ev,cancelled)=>{
+    if(!drag||ev.pointerId!==drag.id)return;
+    const d=drag;drag=null;
+    if(!d.active)return;
+    ignoreClickUntil=performance.now()+450;
+    d.bar.classList.remove('nav-dragging');
+    d.bar.querySelectorAll('.drag-hover').forEach(b=>b.classList.remove('drag-hover'));
+    const index=cancelled?d.original:targetIndex(d.bar,d.x);
+    const pill=d.bar.querySelector('.nav-indicator');
+    if(pill){pill.style.transform=`translateX(${Math.max(0,index)*100}%)`;pill.classList.remove('nav-indicator-moving');}
+    if(index>=0&&pages[index]!==ui.page){changePage(pages[index])}
+  };
+  window.addEventListener('pointerup',ev=>finish(ev,false));
+  window.addEventListener('pointercancel',ev=>finish(ev,true));
+  document.addEventListener('click',ev=>{
+    if(performance.now()<ignoreClickUntil&&ev.target instanceof Element&&ev.target.closest('#nova-nav .nav')){
+      ev.preventDefault();ev.stopImmediatePropagation();
+    }
+  },true);
+})();
