@@ -124,3 +124,12 @@ html,body{max-width:100%;overflow-x:clip}
 #note-editor .input{display:block;width:100%;max-width:100%;min-width:0}
 #note-editor textarea{resize:vertical}
 @media(max-width:560px){#note-editor{grid-template-columns:minmax(0,1fr)}#note-editor label,#note-editor .wide{grid-column:1/-1}}
+
+/* v19.0.3: compact schedule weekday selector and six visible study destinations */
+#nova-content .study-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;padding:0;border:0;background:transparent;overflow:visible;max-width:100%;margin:0 0 18px}
+#nova-content .study-grid>button{min-width:0;width:100%;white-space:normal;overflow-wrap:break-word;min-height:44px;flex:none;padding:10px 5px;background:var(--surface);border:1px solid var(--line);border-radius:14px;color:var(--text);font-size:12px;line-height:1.2;box-shadow:none}
+#nova-content .study-grid>button.selected{background:var(--blue);border-color:var(--blue);color:white;box-shadow:0 3px 12px #236fce25}
+.schedule-days{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:7px;margin-top:12px}
+.schedule-days button{min-width:0;min-height:56px;border:0;border-radius:14px;background:var(--raised);color:var(--muted);font-weight:800;font-size:12px;line-height:1.5;padding:7px 2px}
+.schedule-days button.selected{background:var(--blue);color:#fff;box-shadow:0 3px 12px #236fce30}
+@media(max-width:380px){#nova-content .study-grid{gap:6px}#nova-content .study-grid>button{font-size:11px;padding:9px 3px}.schedule-days{gap:5px}}
