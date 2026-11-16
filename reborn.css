@@ -383,3 +383,148 @@ html.bento-sidebar-open .shell{padding-left:112px!important}
 .bento-home .ld-stat-week{font-size:clamp(13px,2.9vw,20px)!important;letter-spacing:-.035em;overflow-wrap:anywhere;line-height:1.12}
 .bento-home .ld-stats .ld-stat:last-child{justify-content:center}
 @media(max-width:760px){.bento-home .ld-stat-week{font-size:clamp(12px,3vw,17px)!important}.bento-home .ld-stat{min-width:0}}
+
+/* BENTO MOTION 2.2.3: reorderable dashboard with saved layout */
+.bento-home{display:flex!important;flex-direction:column!important;gap:13px!important}
+.bento-home>.ld-heading{order:0!important;display:flex;flex-wrap:wrap;align-items:center;gap:9px}
+.bento-home>.ld-main-grid,.bento-home>.ld-bottom-grid{display:contents!important}
+.bento-home>[data-bento-widget],.bento-home>.ld-main-grid>[data-bento-widget],.bento-home>.ld-bottom-grid>[data-bento-widget]{grid-column:auto!important;grid-row:auto!important;min-width:0}
+.bento-home .ld-stats{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:9px}
+.bento-home .bento-mini-grid{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important}
+.bento-edit-toggle,.bento-reset-toggle{font:inherit;font-size:12px;font-weight:700;padding:10px 13px;border-radius:13px;border:1px solid #A8B49D;background:#fff;color:#26341A;cursor:pointer}
+.bento-edit-toggle[aria-pressed=true]{background:#D9F58D;border-color:#9AB96A}
+.bento-reset-toggle{background:transparent}
+.bento-home.bento-editing [data-bento-widget]{position:relative;outline:2px dashed #86A75B;outline-offset:2px;cursor:grab;transition:transform .32s cubic-bezier(.18,1.5,.3,1),box-shadow .25s ease}
+.bento-home.bento-editing [data-bento-widget]:active{cursor:grabbing}
+.bento-home .bento-drag-handle{display:flex;align-items:center;justify-content:center;min-height:38px;padding:8px 12px;border-radius:13px;background:#D9F58D;color:#26341A;font-size:12px;font-weight:800;letter-spacing:.02em;cursor:grab;touch-action:none;user-select:none;margin:0 0 10px;position:relative;z-index:3}
+.bento-home .ld-live-card .bento-drag-handle{background:#26341A;color:#fff}
+.bento-home .ld-task-card .bento-drag-handle{background:#3B4E31;color:#fff}
+.bento-home .bento-dragging{transform:scale(1.025);opacity:.68;box-shadow:0 18px 36px #1F282026!important}
+.bento-home .bento-drop-target{outline:3px solid #597E2D!important;outline-offset:4px}
+@media(min-width:900px){.bento-home{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;align-items:start}.bento-home>.ld-heading{grid-column:1/-1!important}.bento-home .ld-live-card,.bento-home .ld-schedule-card{grid-column:auto!important}.bento-home .ld-stats{grid-template-columns:1fr!important}.bento-home .ld-stats .ld-stat{min-height:90px}.bento-home .ld-task-card,.bento-home .ld-shortcuts{height:auto}}
+@media(max-width:760px){.bento-home{display:flex!important}.bento-home .ld-stats{grid-template-columns:repeat(3,minmax(0,1fr))!important}.bento-home .bento-mini-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}.bento-home>.ld-heading{gap:7px}.bento-edit-toggle,.bento-reset-toggle{padding:8px 10px;font-size:11px}}
+@media(prefers-reduced-motion:reduce){.bento-home.bento-editing [data-bento-widget]{transition:none!important}}
+
+
+/* BAUMANKA 2.3 NATIVE · matched to user-selected iPhone / laptop concept */
+:root[data-theme=light]{--bg:#F7F8FA;--surface:#FFFFFF;--raised:#F4F6F8;--line:#E9EBEF;--text:#17191D;--muted:#797E87;--accent:#4B9D37;--nav:#FFFFFFF5;--glass:#FFFFFFF5;color-scheme:light}
+:root[data-theme=light] body{background:#F7F8FA!important;color:#17191D}
+:root[data-theme=light] .shell{background:transparent!important}
+:root[data-theme=light] #nova-content .page{color:#17191D}
+:root[data-theme=light] #nova-content .page button{font-family:inherit}
+:root[data-theme=light] #nova-content .page .btn{border-radius:12px}
+:root[data-theme=light] #nova-content .page .card,
+:root[data-theme=light] #nova-content .page .panel,
+:root[data-theme=light] #nova-content .page .v2-lesson,
+:root[data-theme=light] #nova-content .page .v2-weekbar,
+:root[data-theme=light] #nova-content .page .v2-timeline,
+:root[data-theme=light] #nova-content .page .v2-study-menu,
+:root[data-theme=light] #nova-content .page .v2-page-heading,
+:root[data-theme=light] #nova-content .page .subject-card,
+:root[data-theme=light] #nova-content .page .task-card,
+:root[data-theme=light] #nova-content .page .exam-card{border-color:#E9EBEF!important;box-shadow:0 2px 14px #1C2B3610!important}
+:root[data-theme=light] #nova-content .page h2,
+:root[data-theme=light] #nova-content .page h3{letter-spacing:-.045em}
+/* Homepage: light, functional, compact, no enormous colored square. */
+:root[data-theme=light] .bento-home{max-width:1200px!important;gap:12px!important}
+:root[data-theme=light] .bento-home>.ld-heading{border:0!important;padding:5px 0 10px!important;align-items:center}
+:root[data-theme=light] .bento-home .ld-heading h2{font-size:clamp(28px,3vw,36px)!important;font-weight:780!important;letter-spacing:-.055em!important;margin:5px 0 0!important;color:#17191D}
+:root[data-theme=light] .bento-home .ld-heading h2 span{display:none}
+:root[data-theme=light] .bento-home .ld-heading .ld-eyebrow{font-size:12px!important;letter-spacing:0!important;text-transform:none!important;font-weight:550!important;color:#7B8088}
+:root[data-theme=light] .bento-home .ld-heading-date{display:none!important}
+:root[data-theme=light] .bento-home .ld-stat,
+:root[data-theme=light] .bento-home .ld-live-card,
+:root[data-theme=light] .bento-home .ld-task-card,
+:root[data-theme=light] .bento-home .ld-schedule-card,
+:root[data-theme=light] .bento-home .ld-shortcuts,
+:root[data-theme=light] .bento-home .bento-weather,
+:root[data-theme=light] .bento-home .bento-next{background:#fff!important;color:#17191D!important;border:1px solid #E9EBEF!important;border-radius:17px!important;box-shadow:0 2px 14px #1C2B3609!important}
+:root[data-theme=light] .bento-home .ld-stat{min-height:0!important;padding:15px!important;gap:8px!important;justify-content:center}
+:root[data-theme=light] .bento-home .ld-stat>span{font-size:11px!important;color:#6B727B!important;letter-spacing:0!important;font-weight:600}
+:root[data-theme=light] .bento-home .ld-stat strong{font-size:29px!important;color:#17191D!important;font-weight:770}
+:root[data-theme=light] .bento-home .ld-stat-week{font-size:clamp(12px,1.45vw,17px)!important;letter-spacing:-.03em!important}
+:root[data-theme=light] .bento-home .ld-stat small{display:none!important}
+:root[data-theme=light] .bento-home .ld-live-card{min-height:0!important;overflow:hidden}
+:root[data-theme=light] .bento-home .ld-live-top{padding:17px 19px 0!important;letter-spacing:0!important;font-size:12px!important;color:#353A40!important;text-transform:none}
+:root[data-theme=light] .bento-home .ld-live-top span:first-child{color:#2D8231}
+:root[data-theme=light] .bento-home .ld-live-content{padding:10px 19px 18px!important}
+:root[data-theme=light] .bento-home .ld-live-kicker{display:none!important}
+:root[data-theme=light] .bento-home .ld-live-content h3{font-size:clamp(20px,2.2vw,27px)!important;line-height:1.17!important;margin:8px 0!important;color:#17191D!important}
+:root[data-theme=light] .bento-home .ld-live-time{font-size:13px!important;font-weight:500!important;color:#7B8088!important}
+:root[data-theme=light] .bento-home .ld-live-bottom{padding-top:7px!important;margin-top:0!important;justify-content:flex-end}
+:root[data-theme=light] .bento-home .ld-live-bottom>div{display:flex;flex-direction:row-reverse;align-items:center;gap:8px}
+:root[data-theme=light] .bento-home .ld-live-bottom strong{font-size:18px!important;background:#E4F9C7;color:#263B1D;border-radius:11px;padding:9px 12px;white-space:nowrap}
+:root[data-theme=light] .bento-home .ld-live-bottom small{font-size:10px!important;letter-spacing:0!important;color:#6C7A61!important}
+:root[data-theme=light] .bento-home .ld-open-subject{background:#F1F5EC!important;color:#41832C!important;width:32px;height:32px}
+:root[data-theme=light] .bento-home .ld-progress-track{background:#E9EBED!important;height:7px!important;margin-top:12px!important}
+:root[data-theme=light] .bento-home .ld-progress-track>div{background:#53AC37!important}
+:root[data-theme=light] .bento-home .ld-live-link{display:none!important}
+:root[data-theme=light] .bento-home .ld-task-card .ld-eyebrow,
+:root[data-theme=light] .bento-home .ld-task-card .ld-task-row small,
+:root[data-theme=light] .bento-home .ld-task-card .ld-section-top h3 em{color:#7B8088!important}
+:root[data-theme=light] .bento-home .ld-task-card .ld-task-row{color:#17191D!important;border-color:#EEF0F2!important}
+:root[data-theme=light] .bento-home .ld-task-card .ld-section-top>button{background:#F4F6F8!important;color:#17191D!important}
+:root[data-theme=light] .bento-home .ld-task-card,
+:root[data-theme=light] .bento-home .ld-schedule-card,
+:root[data-theme=light] .bento-home .ld-shortcuts{padding:17px!important}
+:root[data-theme=light] .bento-home .ld-section-top h3{font-size:17px!important;letter-spacing:-.03em!important;margin:0!important}
+:root[data-theme=light] .bento-home .ld-section-top .ld-eyebrow{display:none}
+:root[data-theme=light] .bento-home .ld-lesson-row.is-current{background:#E8F9D5!important;border-radius:9px!important;padding-inline:9px}
+:root[data-theme=light] .bento-home .ld-lesson-row.is-current .ld-lesson-marker{background:#53AC37!important}
+:root[data-theme=light] .bento-home .bento-weather,
+:root[data-theme=light] .bento-home .bento-next{min-height:90px!important;padding:14px!important}
+:root[data-theme=light] .bento-home .bento-weather strong,
+:root[data-theme=light] .bento-home .bento-next strong{font-size:20px!important}
+:root[data-theme=light] .bento-home .bento-weather span,
+:root[data-theme=light] .bento-home .bento-next span{font-size:10px!important;letter-spacing:0!important}
+:root[data-theme=light] .bento-home .bento-weather small,
+:root[data-theme=light] .bento-home .bento-next small{font-size:11px!important}
+:root[data-theme=light] .bento-edit-toggle,
+:root[data-theme=light] .bento-reset-toggle{background:#fff!important;border:1px solid #E9EBEF!important;color:#545B63!important;border-radius:11px!important;font-size:11px!important}
+:root[data-theme=light] .bento-home .bento-drag-handle{background:#E8F9D5!important;color:#286A2C!important}
+/* Natural screen layouts and native-like cards across ALL sections */
+:root[data-theme=light] .v2-page-heading{background:transparent!important;box-shadow:none!important}
+:root[data-theme=light] .v2-page-heading h2{font-size:clamp(26px,3vw,35px)!important}
+:root[data-theme=light] .v2-day.is-current,
+:root[data-theme=light] .v2-lesson.is-current,
+:root[data-theme=light] .v2-lesson.active,
+:root[data-theme=light] .selected,
+:root[data-theme=light] .active-day{background:#E8F9D5!important;color:#245B26!important}
+:root[data-theme=light] .v2-weekbar,
+:root[data-theme=light] .v2-lesson,
+:root[data-theme=light] .v2-study-menu button,
+:root[data-theme=light] .v2-screen .card{border-radius:16px!important}
+/* Mobile bottom dock, five icons including Profile */
+@media(max-width:1149px){
+ :root[data-theme=light] #nova-nav .nav{background:#FFFFFFF5!important;border:1px solid #E8EAEE!important;box-shadow:0 7px 25px #1D263018!important;border-radius:22px!important}
+ :root[data-theme=light] #nova-nav .nav button.active{color:#368E2D!important}
+ :root[data-theme=light] #nova-nav .nav-indicator{background:#E5F8CE!important;border-radius:16px!important}
+}
+@media(max-width:760px){
+ :root[data-theme=light] .bento-home{gap:10px!important;padding-top:4px}
+ :root[data-theme=light] .bento-home .ld-heading h2{font-size:29px!important}
+ :root[data-theme=light] .bento-home .ld-stats{order:2!important}
+ :root[data-theme=light] .bento-home .ld-live-card{order:1!important}
+ :root[data-theme=light] .bento-home .ld-schedule-card{order:3!important}
+ :root[data-theme=light] .bento-home .ld-task-card{order:4!important}
+ :root[data-theme=light] .bento-home .bento-mini-grid{order:5!important}
+ :root[data-theme=light] .bento-home .ld-shortcuts{order:6!important}
+ :root[data-theme=light] .bento-home .ld-stat{padding:12px 10px!important}
+ :root[data-theme=light] .bento-home .ld-stat strong{font-size:22px!important}
+ :root[data-theme=light] .bento-home .ld-stat-week{font-size:12px!important}
+ :root[data-theme=light] .bento-home .ld-live-content h3{font-size:21px!important}
+ :root[data-theme=light] .bento-home .ld-live-bottom strong{font-size:16px!important}
+ :root[data-theme=light] .bento-home .ld-lesson-row{padding:10px 0!important}
+}
+/* Desktop sidebar: collapsible with real section names, not a floating icon column */
+@media(min-width:1150px){
+ :root[data-theme=light] #bento-sidebar-toggle{left:14px!important;top:18px!important;width:37px!important;height:37px!important;border-radius:10px!important;background:#fff!important;color:#2E8A34!important;border:1px solid #E8EAEE!important;box-shadow:0 2px 12px #1111!important}
+ :root[data-theme=light] #nova-nav{left:12px!important;top:50%!important}
+ :root[data-theme=light] #nova-nav .nav{background:#fff!important;border:1px solid #E8EAEE!important;border-radius:17px!important;box-shadow:0 4px 20px #1C2B3610!important}
+ :root[data-theme=light] #nova-nav .nav button.active{background:#E8F9D5!important;color:#2F8D31!important}
+ :root[data-theme=light] #nova-nav .nav-indicator{opacity:0!important}
+ :root[data-theme=light] html.bento-sidebar-open .shell{padding-left:112px!important}
+}
+@media(prefers-reduced-motion:reduce){:root[data-theme=light] .bento-home *{animation:none!important;transition:none!important}}
+
+@media(min-width:900px){:root[data-theme=light] .bento-home{grid-template-columns:repeat(12,minmax(0,1fr))!important;gap:12px!important}:root[data-theme=light] .bento-home>.ld-heading{grid-column:1/-1!important}:root[data-theme=light] .bento-home .ld-live-card{grid-column:span 7!important}:root[data-theme=light] .bento-home .ld-stats{grid-column:span 5!important;grid-template-columns:repeat(3,minmax(0,1fr))!important}:root[data-theme=light] .bento-home .ld-stat{padding:11px!important}:root[data-theme=light] .bento-home .ld-stat strong{font-size:24px!important}:root[data-theme=light] .bento-home .ld-schedule-card{grid-column:span 7!important}:root[data-theme=light] .bento-home .ld-task-card{grid-column:span 5!important}:root[data-theme=light] .bento-home .bento-mini-grid{grid-column:span 7!important}:root[data-theme=light] .bento-home .ld-shortcuts{grid-column:span 5!important}}
