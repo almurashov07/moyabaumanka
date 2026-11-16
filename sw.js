@@ -1,5 +1,5 @@
-const CACHE='baumanka-nova-v20-6-1-live-timeline';
-const CORE=['./','./index.html','./styles.css?v=2061','./reborn.css?v=2061','./seed.js?v=2061','./app.js?v=2061','./horoscope.js?v=2061','./manifest.webmanifest','./icon-192.png','./icon-512.png','./chibis.jpeg','./siply.jpeg','./basmach.jpeg','./sych.jpeg','./shershavy.jpeg'];
+const CACHE='baumanka-nova-v20-7-live-dashboard';
+const CORE=['./','./index.html','./styles.css?v=2070','./reborn.css?v=2070','./seed.js?v=2070','./app.js?v=2070','./horoscope.js?v=2070','./manifest.webmanifest','./icon-192.png','./icon-512.png','./chibis.jpeg','./siply.jpeg','./basmach.jpeg','./sych.jpeg','./shershavy.jpeg'];
 self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(CORE)).then(()=>self.skipWaiting())));
 self.addEventListener('activate',event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith('baumanka-nova-')&&k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
 self.addEventListener('fetch',event=>{
