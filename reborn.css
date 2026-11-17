@@ -633,3 +633,169 @@ html.bento-sidebar-open .shell{padding-left:112px!important}
  :root[data-theme=light] #bento-sidebar-toggle{background:#fff!important;color:#348e36!important}
 }
 @media(prefers-reduced-motion:reduce){.native-dashboard *{transition:none!important;animation:none!important}}
+
+/* v2.5: native layout works in every theme, not just Paper. */
+:root[data-theme=gta6]{--bg:#211b3c;--surface:#33284c;--raised:#47375e;--line:#705b80;--text:#fff2ed;--muted:#d1b5d3;--accent:#ff88b8;--blue:#66e7cf;--nav:#2b2044f5;--glass:#33284cf0;color-scheme:dark}
+.swatch-gta6{background:linear-gradient(135deg,#38205e 0%,#e46ca0 55%,#ffa85e 100%);color:white}
+/* Old theme-specific native selectors were leaving all other themes in the legacy layout. */
+
+/* Reuse the same native geometry for every palette. */
+:root .native-dashboard{display:grid!important;grid-template-columns:repeat(12,minmax(0,1fr))!important;gap:14px!important;max-width:1200px!important;margin:0 auto!important;padding:4px 0 40px!important;align-items:stretch}
+:root .native-dashboard > *{min-width:0!important;box-sizing:border-box!important;order:unset}
+:root .native-dashboard .native-mast{grid-column:1/-1!important;display:flex!important;justify-content:space-between;align-items:center;gap:16px;padding:0 4px 6px!important;background:transparent!important;border:0!important}
+:root .native-date{display:block;color:#61666d;font-size:13px;font-weight:500;letter-spacing:0;text-transform:none}
+:root .native-mast h2{font-size:31px!important;letter-spacing:-.055em!important;font-weight:760!important;line-height:1.15!important;margin:3px 0 0!important;color:#15171b!important}
+:root .native-mast-actions{display:flex;align-items:center;gap:10px}
+:root .native-mast-actions button{cursor:pointer;border:1px solid #eceef0;background:#fff;color:#343a40;border-radius:50%;width:39px;height:39px;display:flex;align-items:center;justify-content:center;padding:0;box-shadow:0 2px 8px #18212a0a}
+:root .native-mast-actions .native-weather{border-radius:24px;width:auto;max-width:175px;padding:0 11px;gap:5px;font-size:12px;white-space:nowrap;overflow:hidden}
+:root .native-mast-actions .native-weather span{overflow:hidden;text-overflow:ellipsis}
+:root .native-mast-actions .native-customize,:root .native-mast-actions .native-reset{width:auto;border-radius:10px;padding:0 10px;font-size:11px}
+:root .native-profile img{width:34px;height:34px;border-radius:50%;object-fit:cover}
+:root .native-dashboard .native-live,:root .native-dashboard .native-stats,:root .native-dashboard .native-schedule,:root .native-dashboard .native-tasks,:root .native-dashboard .native-extra{background:#fff!important;border:1px solid #e9ebee!important;box-shadow:0 3px 14px #1c2b3610!important;border-radius:17px!important;color:#181b1f!important;backdrop-filter:none!important}
+:root .native-dashboard .native-live{grid-column:span 7!important;padding:20px 21px 18px!important;display:flex!important;flex-direction:column!important;min-height:158px!important;gap:0!important;overflow:visible!important}
+:root .native-live-title{display:flex;align-items:center;gap:7px;font-size:12px;color:#30343a;font-weight:650}
+:root .native-live-dot{width:9px;height:9px;border-radius:50%;background:#55b73a;flex:none}
+:root #nova-lesson-state{font-size:12px;color:#333;font-weight:650}
+:root .native-live-title .native-fraction{color:#6b7076;font-size:12px}
+:root .native-live-main{display:flex;align-items:center;justify-content:space-between;gap:14px;margin:14px 0 12px;flex:1}
+:root .native-subject{min-width:0}
+:root .native-subject h3{font-size:clamp(18px,2.1vw,23px)!important;line-height:1.18!important;letter-spacing:-.045em!important;font-weight:750!important;color:#14171b!important;margin:0 0 7px!important}
+:root .native-subject p{font-size:13px!important;color:#858a91!important;margin:0!important;white-space:normal}
+:root .native-timer{background:#e8fbd1!important;padding:10px 12px!important;border-radius:13px!important;text-align:center;flex:none;max-width:125px}
+:root .native-timer strong{font-size:20px!important;font-weight:750!important;color:#1e251a!important;display:block;white-space:nowrap}
+:root .native-timer small{font-size:10px!important;color:#525f49!important;display:block;white-space:nowrap}
+:root .native-dashboard .native-progress{background:#e9ebed!important;height:7px!important;border-radius:10px!important;margin:0!important;overflow:hidden}
+:root .native-dashboard .native-progress>div{background:#53ae38!important;height:100%;border-radius:10px}
+:root .native-dashboard .native-stats{grid-column:span 5!important;display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:9px!important;background:transparent!important;border:0!important;box-shadow:none!important;padding:0!important}
+:root .native-dashboard .native-stats .ld-stat{display:flex!important;flex-direction:column!important;align-items:flex-start!important;justify-content:center!important;gap:7px!important;text-align:left!important;padding:16px 12px!important;min-width:0!important;background:#fff!important;border:1px solid #e9ebee!important;border-radius:17px!important;box-shadow:0 3px 14px #1c2b3610!important;min-height:158px!important;color:#181b1f!important}
+:root .native-stats .ld-stat .icon{color:#408b3d!important;stroke:#408b3d!important;width:21px!important;height:21px!important}
+:root .native-stats .ld-stat strong{font-size:26px!important;line-height:1.05!important;letter-spacing:-.04em!important;color:#17191c!important}
+:root .native-stats .ld-stat strong.native-week{font-size:clamp(12px,1.3vw,16px)!important;letter-spacing:-.025em!important;overflow-wrap:anywhere}
+:root .native-stats .ld-stat span{font-size:11px!important;line-height:1.25!important;color:#777c83!important}
+:root .native-dashboard .native-schedule{grid-column:span 7!important;padding:17px!important}
+:root .native-dashboard .native-tasks{grid-column:span 5!important;padding:17px!important}
+:root .native-card-head{display:flex;justify-content:space-between;align-items:center;gap:8px;margin:0 0 12px}
+:root .native-card-head h3{font-size:16px!important;font-weight:730!important;letter-spacing:-.035em!important;color:#17191c!important;margin:0!important}
+:root .native-card-head button{border:0;background:transparent;color:#292f35;display:grid;place-items:center;cursor:pointer;padding:3px}
+:root .native-schedule-list,.native-task-list{display:grid;gap:3px}
+:root .native-schedule-row{width:100%;display:grid;grid-template-columns:75px minmax(0,1fr) 20px;align-items:center;gap:9px;padding:9px 10px!important;border:0!important;border-bottom:1px solid #eff0f1!important;background:transparent!important;text-align:left;color:#2b3035!important;border-radius:8px!important;font-size:12px!important;cursor:pointer}
+:root .native-schedule-row:last-child{border-bottom:0!important}
+:root .native-schedule-row time{font-weight:650;color:#6d7379}
+:root .native-schedule-row>span:nth-child(2){white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+:root .native-schedule-row.is-current{background:#e9fad8!important;border-bottom-color:transparent!important}
+:root .native-schedule-row.is-current time{color:#1d2c19}
+:root .native-row-state{text-align:center;color:#5a8b57;font-size:17px}
+:root .native-current-dot{display:inline-block;width:10px;height:10px;background:#4ba83c;border-radius:50%;box-shadow:0 0 0 3px #d7f4c5}
+:root .native-task-row{display:flex;gap:10px;align-items:center;border:0;border-bottom:1px solid #eef0f2;background:transparent;padding:10px 2px;width:100%;text-align:left;cursor:pointer}
+:root .native-task-row>span:last-child{min-width:0;display:grid;gap:3px}
+:root .native-task-row strong{font-size:12px!important;font-weight:550!important;color:#24272c!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+:root .native-task-row small{font-size:10px!important;color:#858a90!important}
+:root .native-checkbox{width:17px;height:17px;border:1.5px solid #bfc4c8;border-radius:4px;flex:none}
+:root .native-empty{font-size:13px;color:#7c8188;padding:12px 0}
+:root .native-dashboard .native-extras{grid-column:1/-1!important;display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:12px!important}
+:root .native-dashboard .native-extra{padding:14px!important;display:flex;flex-direction:column;align-items:flex-start;gap:10px;text-align:left;cursor:pointer;min-height:94px}
+:root .native-extra>span{display:flex;align-items:center;gap:7px;font-size:12px;font-weight:650;color:#333}
+:root .native-extra .icon{color:#408b3d}
+:root .native-extra strong{font-size:12px;font-weight:500;color:#737980}
+:root .native-links{grid-column:1/-1!important;display:none!important}
+/* Consistent native styling on the rest of the application */
+:root .panel,:root .v2-study-content,:root .v2-lesson,:root .v2-task-row,:root .subject,:root .list-row{background:#fff!important;border:1px solid #e9ebee!important;border-radius:16px!important;box-shadow:0 3px 14px #1c2b3608!important}
+:root .v2-page-heading{border-bottom:0!important;padding-bottom:12px!important}
+:root .v2-page-heading h2{font-size:clamp(27px,3.5vw,37px)!important;letter-spacing:-.045em!important}
+:root .v2-overline{letter-spacing:0!important;color:#7a8086!important}
+:root .btn,:root .v2-today,:root .v2-outline{border-radius:11px!important}
+:root .v2-day.is-current,:root .v2-segments button.selected,:root .v2-study-menu button.selected{background:#e6f8d8!important;color:#2e7b2e!important}
+@media(max-width:899px){
+ :root .native-dashboard{display:flex!important;flex-direction:column!important;gap:12px!important;padding:4px 0 95px!important}
+ :root .native-dashboard>.native-mast{order:0!important;padding:0 2px 8px!important}
+ :root .native-dashboard>.native-live{order:1!important;min-height:0!important;padding:18px!important}
+ :root .native-dashboard>.native-stats{order:2!important}
+ :root .native-dashboard>.native-schedule{order:3!important}
+ :root .native-dashboard>.native-tasks{order:4!important}
+ :root .native-dashboard>.native-extras{order:5!important}
+ :root .native-dashboard>.native-links{order:6!important}
+ :root .native-dashboard .native-stats{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:9px!important}
+ :root .native-dashboard .native-stats .ld-stat{min-height:110px!important;padding:12px!important;gap:7px!important}
+ :root .native-stats .ld-stat strong{font-size:23px!important}
+ :root .native-stats .ld-stat strong.native-week{font-size:12px!important}
+ :root .native-dashboard .native-extras{grid-template-columns:1fr!important}
+ :root .native-dashboard .native-extra{min-height:70px!important}
+ :root .native-mast-actions .native-weather{display:none!important}
+ :root .native-mast-actions .native-customize{font-size:0!important;width:33px!important;height:33px!important;border-radius:50%!important}
+ :root .native-mast-actions .native-customize:before{content:'⋯';font-size:23px!important;line-height:1}
+ :root .native-mast-actions .native-customize[aria-pressed=true]{width:auto!important;font-size:11px!important;border-radius:10px!important;padding:0 8px!important}
+ :root .native-mast-actions .native-customize[aria-pressed=true]:before{content:none}
+ :root .native-mast h2{font-size:31px!important}
+ :root .native-subject h3{font-size:20px!important}
+ :root .native-schedule-row{grid-template-columns:57px minmax(0,1fr) 19px!important;gap:7px!important}
+ :root .native-dashboard .native-live{gap:0!important}
+ :root .native-timer strong{font-size:17px!important}
+ :root #nova-nav .nav{background:#fffffff7!important;border:1px solid #edf0f2!important;border-radius:22px!important;box-shadow:0 5px 24px #111b2519!important}
+ :root #nova-nav .nav button.active{color:#347e2d!important}
+ :root #nova-nav .nav-indicator{background:#e7f8d8!important;border-radius:15px!important}
+}
+@media(min-width:1150px){
+ :root #nova-nav .nav{border-radius:16px!important;background:#fff!important;border:1px solid #e9ebee!important;box-shadow:0 4px 18px #1c2b3610!important}
+ :root #nova-nav .nav button.active{background:#e7f8d8!important;color:#317e2e!important}
+ :root #bento-sidebar-toggle{background:#fff!important;color:#348e36!important}
+}
+@media(prefers-reduced-motion:reduce){.native-dashboard *{transition:none!important;animation:none!important}}
+
+
+
+/* Shared theme-aware native colors: never force white text on white cards or vice versa. */
+:root:not([data-theme=light]) .native-dashboard .native-mast h2,
+:root:not([data-theme=light]) .native-dashboard .native-subject h3,
+:root:not([data-theme=light]) .native-dashboard .native-card-head h3,
+:root:not([data-theme=light]) .native-dashboard .native-stats .ld-stat strong,
+:root:not([data-theme=light]) .native-dashboard .native-extra strong,
+:root:not([data-theme=light]) .native-dashboard .native-task-row strong,
+:root:not([data-theme=light]) .native-dashboard .native-schedule-row,
+:root:not([data-theme=light]) .native-dashboard .native-live,
+:root:not([data-theme=light]) .native-dashboard .native-stats .ld-stat,
+:root:not([data-theme=light]) .native-dashboard .native-card-head button {color:var(--text)!important}
+:root:not([data-theme=light]) .native-dashboard .native-live,
+:root:not([data-theme=light]) .native-dashboard .native-schedule,
+:root:not([data-theme=light]) .native-dashboard .native-tasks,
+:root:not([data-theme=light]) .native-dashboard .native-extra,
+:root:not([data-theme=light]) .native-dashboard .native-stats .ld-stat,
+:root:not([data-theme=light]) .native-dashboard .native-profile {background:var(--surface)!important;border-color:var(--line)!important;box-shadow:none!important}
+:root:not([data-theme=light]) .native-dashboard .native-mast,
+:root:not([data-theme=light]) .native-dashboard .native-mast h2{color:var(--text)!important}
+:root:not([data-theme=light]) .native-dashboard .native-date,
+:root:not([data-theme=light]) .native-dashboard .native-subject p,
+:root:not([data-theme=light]) .native-dashboard .native-task-row small,
+:root:not([data-theme=light]) .native-dashboard .native-stats .ld-stat span,
+:root:not([data-theme=light]) .native-dashboard .native-extra span,
+:root:not([data-theme=light]) .native-dashboard .native-schedule-row time{color:var(--muted)!important}
+:root:not([data-theme=light]) .native-dashboard .native-schedule-row.is-current{background:color-mix(in srgb,var(--accent) 22%,var(--surface))!important}
+:root:not([data-theme=light]) .native-dashboard .native-schedule-row.is-current time{color:var(--text)!important}
+:root:not([data-theme=light]) .native-dashboard .native-live-dot,
+:root:not([data-theme=light]) .native-dashboard .native-current-dot{background:var(--accent)!important}
+:root:not([data-theme=light]) .native-dashboard .native-progress>span{background:var(--accent)!important}
+:root:not([data-theme=light]) .native-dashboard .native-timer{background:color-mix(in srgb,var(--accent) 20%,var(--surface))!important;color:var(--text)!important}
+:root:not([data-theme=light]) #nova-nav .nav{background:var(--nav)!important;border-color:var(--line)!important}
+:root:not([data-theme=light]) #nova-nav .nav-indicator{background:color-mix(in srgb,var(--accent) 28%,var(--surface))!important}
+:root:not([data-theme=light]) #nova-nav .nav button.active{color:var(--accent)!important}
+/* Restore native styling for non-home pages across all themes. */
+#nova-content .page .panel,#nova-content .page .v2-study-content,#nova-content .page .v2-task-row,#nova-content .page .subject,#nova-content .page .list-row{background:var(--surface)!important;border-color:var(--line)!important;color:var(--text)!important;border-radius:16px!important}
+/* The old global top header was duplicated and inconsistent. */
+#nova-content .top{display:none!important}
+.native-back-row{padding:8px 0 14px}
+/* Schedule: one clean vertical timeline, no nested box outlines. */
+.v2-schedule .v2-lesson{background:transparent!important;border:0!important;box-shadow:none!important;border-radius:0!important;min-width:0!important}
+.v2-schedule .v2-lesson-info{background:var(--surface)!important;border:1px solid var(--line)!important;border-radius:15px!important;box-shadow:none!important;padding:14px 15px!important;margin:0 0 9px!important;min-width:0!important}
+.v2-schedule .v2-lesson.is-live .v2-lesson-info{background:color-mix(in srgb,var(--accent) 15%,var(--surface))!important;color:var(--text)!important;border-color:var(--accent)!important}
+.v2-schedule .v2-time{min-width:0!important;overflow:hidden!important}
+.v2-schedule .v2-lesson-subject h4{overflow-wrap:anywhere!important;line-height:1.2!important}
+.v2-schedule .v2-timeline,.v2-schedule .v2-lesson{overflow:visible!important}
+/* Avoid text escaping narrow tiles. */
+.native-dashboard,.native-dashboard *{min-width:0;box-sizing:border-box}
+.native-dashboard .native-week{overflow-wrap:anywhere;word-break:break-word;line-height:1.12!important}
+/* Smooth responsive motion, with accessibility fallback. */
+#nova-nav,.shell,#bento-sidebar-toggle{transition-duration:.58s!important;transition-timing-function:cubic-bezier(.22,1,.36,1)!important}
+#nova-nav .nav-indicator{transition:transform .45s cubic-bezier(.2,.85,.2,1),background .3s ease!important}
+.native-dashboard button,.v2-lesson-info,.panel,.btn{transition:background-color .3s ease,border-color .3s ease,color .25s ease,box-shadow .3s ease,transform .28s cubic-bezier(.2,.85,.2,1)!important}
+@media(hover:hover){.native-dashboard button:hover{transform:translateY(-1px)}}
+@media(max-width:760px){.native-dashboard .native-stats .ld-stat{padding:11px 9px!important}.native-dashboard .native-stats .ld-stat strong.native-week{font-size:clamp(10px,2.7vw,13px)!important}.v2-schedule .v2-lesson{grid-template-columns:47px 12px minmax(0,1fr)!important;gap:7px!important}}
+@media(prefers-reduced-motion:reduce){#nova-nav,.shell,#bento-sidebar-toggle,.native-dashboard button,.v2-lesson-info,.panel,.btn{transition:none!important;animation:none!important}}
