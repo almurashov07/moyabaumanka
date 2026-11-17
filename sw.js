@@ -1,5 +1,5 @@
-const CACHE='baumanka-nova-v250-native-theme-fix';
-const CORE=['./','./index.html','./styles.css?v=2500','./reborn.css?v=2500','./seed.js?v=2500','./app.js?v=2500','./horoscope.js?v=2500','./manifest.webmanifest','./icon-192.png','./icon-512.png','./chibis.jpeg','./siply.jpeg','./basmach.jpeg','./sych.jpeg','./shershavy.jpeg'];
+const CACHE='baumanka-nova-v251-layout-repair';
+const CORE=['./','./index.html','./styles.css?v=2511','./reborn.css?v=2511','./seed.js?v=2511','./app.js?v=2511','./horoscope.js?v=2511','./manifest.webmanifest','./icon-192.png','./icon-512.png','./chibis.jpeg','./siply.jpeg','./basmach.jpeg','./sych.jpeg','./shershavy.jpeg'];
 self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(CORE)).then(()=>self.skipWaiting())));
 self.addEventListener('activate',event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith('baumanka-nova-')&&k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
 self.addEventListener('fetch',event=>{
