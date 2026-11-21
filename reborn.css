@@ -830,3 +830,24 @@ html.bento-sidebar-open .shell{padding-left:112px!important}
  #nova-content .v2-schedule .v2-footer-actions>span{flex-basis:100%!important}
  #nova-content .v2-schedule .v2-change{font-size:12px!important}
 }
+
+/* v2.5.2 MOTION: compositor-friendly, restrained motion for high-refresh displays. */
+@media (prefers-reduced-motion:no-preference){
+  :root{--motion-smooth:cubic-bezier(.22,1,.36,1);--motion-spring:cubic-bezier(.2,1.12,.3,1)}
+  #nova-nav{transition:transform 560ms var(--motion-smooth),opacity 300ms ease!important;will-change:transform,opacity}
+  #bento-sidebar-toggle{transition:transform 420ms var(--motion-smooth),left 560ms var(--motion-smooth),background-color 220ms ease!important}
+  #nova-nav .nav-indicator{transition:transform 430ms var(--motion-spring),background-color 250ms ease!important;will-change:transform}
+  #nova-nav .nav button{transition:transform 240ms var(--motion-smooth),color 220ms ease,background-color 240ms ease!important;-webkit-tap-highlight-color:transparent}
+  #nova-nav .nav button:active{transform:scale(.95)}
+  #nova-content>.page{animation:baumanka-motion-enter 400ms var(--motion-smooth) both!important}
+  @keyframes baumanka-motion-enter{from{opacity:.65;transform:translate3d(0,9px,0)}to{opacity:1;transform:translate3d(0,0,0)}}
+  #nova-content button,#nova-content .btn,#nova-content .v2-day,#nova-content .theme-choice{transition:transform 270ms var(--motion-smooth),background-color 230ms ease,border-color 230ms ease,box-shadow 270ms ease,color 200ms ease!important}
+  #nova-content button:active,#nova-content .btn:active{transform:scale(.975)}
+  .bento-home [data-bento-widget]{transition:transform 320ms var(--motion-spring),box-shadow 280ms ease!important}
+  .ld-progress-track>div,#nova-lesson-progress{transition:width 900ms linear!important}
+  @media(hover:hover){.bento-home [data-bento-widget]:hover{transform:translate3d(0,-2px,0)}}
+  @media(min-width:1150px){.shell{transition:padding-left 520ms var(--motion-smooth)!important}}
+}
+@media(prefers-reduced-motion:reduce){
+ #nova-nav,#bento-sidebar-toggle,#nova-nav .nav-indicator,#nova-nav .nav button,#nova-content>.page,#nova-content button,#nova-content .btn,.bento-home [data-bento-widget],.shell{animation:none!important;transition:none!important}
+}
