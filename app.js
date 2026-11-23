@@ -189,15 +189,44 @@ if('serviceWorker'in navigator&&location.protocol.startsWith('http'))navigator.s
 
 // v18: smart mobile tab bar. Ignore micro-scroll, keyboard resizing and desktop sidebar.
 function initSmartNav(){
-  // 2.5.3: Navigation is permanently accessible on mobile.
-  // Scroll-direction hiding was unreliable on iOS PWA (momentum scroll and keyboard resize).
-  const show=()=>document.documentElement.classList.remove('nav-hidden');
-  show();
-  window.addEventListener('pageshow',show);
-  window.addEventListener('resize',show,{passive:true});
-  document.addEventListener('visibilitychange',()=>{if(!document.hidden)show()});
+  // 2.5.4: predictable scroll-aware navigation for iOS Safari/PWA.
+  const root=document.documentElement;
+  const mobile=()=>window.matchMedia('(max-width:1149px)').matches;
+  let lastY=Math.max(0,window.scrollY),travelDown=0,travelUp=0,frame=0;
+  const show=()=>root.classList.remove('nav-hidden');
+  const hide=()=>{if(mobile()&&!document.hidden)root.classList.add('nav-hidden')};
+  const reset=()=>{lastY=Math.max(0,window.scrollY);travelDown=0;travelUp=0;show()};
+  const keyboardOpen=()=>{
+    const active=document.activeElement;
+    return !!(active&&active.matches('input,textarea,select,[contenteditable="true"]'));
+  };
+  const check=()=>{
+    frame=0;
+    const y=Math.max(0,window.scrollY);
+    const delta=y-lastY;
+    lastY=y;
+    if(!mobile()||keyboardOpen()||y<85){reset();return}
+    // At the end of a document the bar must remain reachable, even with iOS bounce.
+    const maxY=Math.max(0,document.documentElement.scrollHeight-window.innerHeight);
+    if(maxY-y<75){show();travelDown=0;return}
+    if(Math.abs(delta)<1.5)return;
+    if(delta<0){travelUp+=-delta;travelDown=0;if(travelUp>10)show()}
+    else{travelDown+=delta;travelUp=0;if(travelDown>65)hide()}
+  };
+  window.addEventListener('scroll',()=>{if(!frame)frame=requestAnimationFrame(check)},{passive:true});
+  window.addEventListener('pageshow',reset);
+  window.addEventListener('resize',reset,{passive:true});
+  window.addEventListener('orientationchange',reset,{passive:true});
+  window.addEventListener('focusin',show);
+  document.addEventListener('visibilitychange',()=>{if(!document.hidden)reset()});
+  document.addEventListener('pointerdown',ev=>{if(ev.target instanceof Element&&ev.target.closest('#nova-nav'))show()},{passive:true});
+  // An explicit upward touch gesture reveals the bar even before scrolling begins.
+  let touchY=null;
+  document.addEventListener('touchstart',ev=>{if(ev.touches.length===1)touchY=ev.touches[0].clientY},{passive:true});
+  document.addEventListener('touchmove',ev=>{if(touchY===null||ev.touches.length!==1)return;const y=ev.touches[0].clientY;if(y-touchY>18){show();touchY=y}},{passive:true});
+  document.addEventListener('touchend',()=>{touchY=null},{passive:true});
+  reset();
 }
-
 
 // v19.0.6: iOS-friendly press-and-slide navigation with pointer capture.
 (function initDragNavigation(){
