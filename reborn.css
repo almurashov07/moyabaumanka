@@ -851,3 +851,25 @@ html.bento-sidebar-open .shell{padding-left:112px!important}
 @media(prefers-reduced-motion:reduce){
  #nova-nav,#bento-sidebar-toggle,#nova-nav .nav-indicator,#nova-nav .nav button,#nova-content>.page,#nova-content button,#nova-content .btn,.bento-home [data-bento-widget],.shell{animation:none!important;transition:none!important}
 }
+
+/* 2.5.3 NAV + TIMELINE REPAIR */
+/* Keep the bottom navigation reachable after every scroll and PWA resume. */
+@media(max-width:1149px){
+  html.nav-hidden #nova-nav .nav,
+  html.nav-hidden .nav{transform:translateX(-50%)!important;opacity:1!important;visibility:visible!important;pointer-events:auto!important}
+  #nova-nav .nav{transform:translateX(-50%)!important;opacity:1!important;visibility:visible!important;pointer-events:auto!important}
+}
+/* A lesson is one row on the page, not a second translucent card behind its contents. */
+#nova-content .v2-schedule .v2-timeline,
+#nova-content .v2-schedule .v2-lesson,
+#nova-content .v2-schedule .v2-lesson::before,
+#nova-content .v2-schedule .v2-lesson::after{
+  background:transparent!important;background-image:none!important;
+  border:0!important;border-radius:0!important;
+  box-shadow:none!important;outline:0!important;
+  backdrop-filter:none!important;-webkit-backdrop-filter:none!important;
+}
+#nova-content .v2-schedule .v2-lesson{isolation:isolate;min-height:0!important;margin-bottom:12px!important}
+#nova-content .v2-schedule .v2-lesson-info{position:relative;z-index:1}
+#nova-content .v2-schedule .v2-time,
+#nova-content .v2-schedule .v2-timeline-marker{background:transparent!important;box-shadow:none!important;border:0!important}

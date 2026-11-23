@@ -188,7 +188,15 @@ if('serviceWorker'in navigator&&location.protocol.startsWith('http'))navigator.s
 })();
 
 // v18: smart mobile tab bar. Ignore micro-scroll, keyboard resizing and desktop sidebar.
-function initSmartNav(){let last=window.scrollY,travel=0,hidden=false;const show=()=>{hidden=false;document.documentElement.classList.remove('nav-hidden')};window.addEventListener('scroll',()=>{if(matchMedia('(min-width:1150px)').matches||document.querySelector('.sheet-backdrop')){show();last=window.scrollY;return}const y=Math.max(0,window.scrollY),delta=y-last;if(y<35){show();travel=0}else if(Math.abs(delta)>1){travel=delta>0?Math.max(0,travel)+delta:Math.min(0,travel)+delta;if(travel>28&&!hidden){hidden=true;document.documentElement.classList.add('nav-hidden');travel=0}else if(travel< -18&&hidden){show();travel=0}}last=y},{passive:true});document.addEventListener('focusin',ev=>{if(ev.target.matches('input,textarea,select'))show()});document.addEventListener('click',ev=>{if(ev.target.closest('#nova-nav'))show()});window.addEventListener('resize',()=>{if(matchMedia('(min-width:1150px)').matches)show()})}
+function initSmartNav(){
+  // 2.5.3: Navigation is permanently accessible on mobile.
+  // Scroll-direction hiding was unreliable on iOS PWA (momentum scroll and keyboard resize).
+  const show=()=>document.documentElement.classList.remove('nav-hidden');
+  show();
+  window.addEventListener('pageshow',show);
+  window.addEventListener('resize',show,{passive:true});
+  document.addEventListener('visibilitychange',()=>{if(!document.hidden)show()});
+}
 
 
 // v19.0.6: iOS-friendly press-and-slide navigation with pointer capture.
