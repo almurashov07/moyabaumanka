@@ -163,7 +163,7 @@ function refreshTaskResults(){
 function renderPreservingPosition(){const focus=document.activeElement;const id=focus?.id;const y=window.scrollY;const main=document.getElementById('nova-content');const oldHeight=main?.getBoundingClientRect().height||0;render();if(id){const next=document.getElementById(id);if(next&&next!==document.activeElement)next.focus({preventScroll:true})}window.scrollTo({top:Math.min(y,Math.max(0,document.documentElement.scrollHeight-innerHeight)),behavior:'instant'})}
 function renderAnchored(){const active=document.activeElement;const card=active?.closest('.subject');const name=card?.querySelector('.name')?.textContent;const before=card?.getBoundingClientRect().top;const y=window.scrollY;render();if(name&&before!==undefined){const cards=[...document.querySelectorAll('.subject')];const after=cards.find(x=>x.querySelector('.name')?.textContent===name);if(after)window.scrollBy(0,after.getBoundingClientRect().top-before);else window.scrollTo(0,y)}else window.scrollTo(0,y)}
 function refreshScoreTotals(){if(ui.page!=='study'||ui.study!=='scores')return;const root=document.getElementById('nova-content');if(!root)return;const aggregate=root.querySelector('.metrics .metric strong');if(aggregate)aggregate.textContent=data.scores.reduce((n,x)=>n+(Number(x.value)||0),0);for(const card of root.querySelectorAll('.subject')){const name=card.querySelector('.name')?.textContent;const key=Object.keys(S).find(k=>S[k]===name);if(!key)continue;const pill=card.querySelector('.pill');const sc=data.scores.filter(x=>x.sub===key);if(pill)pill.textContent=sc.length?total(key)+' б.':'Нет баллов'}}
-function changePage(p,fromBack=false){if(ui.page===p&&!ui.sheet)return;if(!fromBack){if(rootPages.has(p)){backStack.length=0}else if(ui.page!==p){backStack.push({page:ui.page,study:ui.study,subject:ui.subject})}}ui.page=p;ui.sheet=null;render();window.scrollTo({top:0,behavior:'instant'})}
+function changePage(p,fromBack=false){if(ui.page===p&&!ui.sheet)return;if(!fromBack){if(rootPages.has(p)){backStack.length=0}else if(ui.page!==p){backStack.push({page:ui.page,study:ui.study,subject:ui.subject})}}ui.page=p;ui.sheet=null;window.dispatchEvent(new Event('baumanka:navigation'));render();window.scrollTo({top:0,behavior:'instant'})}
 function goBack(){if(ui.sheet){ui.sheet=null;renderSheet();return}const previous=backStack.pop();if(previous){ui.study=previous.study;ui.subject=previous.subject;changePage(previous.page,true);if(previous.page==='subjectDetail')refreshSubjectBooks()}else if(!rootPages.has(ui.page))changePage('home',true)}
 function changeStudyTab(tab){if(!['scores','exams','prep','subjects','notes','focus'].includes(tab))return;const alreadyOnStudy=ui.page==='study';ui.study=tab;ui.sheet=null;if(alreadyOnStudy){renderPreservingPosition()}else{changePage('study')}}
 function action(a){if(a==='bentoedit'){bentoEditMode=!bentoEditMode;if(bentoEditMode){changePage('home')}else{renderPreservingPosition()}return}if(a==='bentoreset'){localStorage.removeItem(bentoLayoutKey);renderPreservingPosition();return}if(!a)return;let [cmd,...parts]=a.split(':'),arg=parts.join(':');if(cmd==='back')goBack();else if(cmd==='page')changePage(arg);else if(cmd==='profile')changePage('profile');else if(cmd==='study')changeStudyTab(arg);else if(cmd==='subjects')changeStudyTab('subjects');else if(cmd==='nachert')changePage('nachert');else if(cmd==='ben')changePage('ben');else if(cmd==='expand'){ui.expanded=ui.expanded===arg?null:arg;renderAnchored()}else if(cmd==='sheet'){ui.sheet=arg;renderSheet()}else if(cmd==='close'){ui.sheet=null;renderSheet()}else if(cmd==='subjectpage'){if(!S[arg])return;ui.subject=arg;subjectBooks=[];changePage('subjectDetail');refreshSubjectBooks()}else if(cmd==='subjecttasks'){taskView.subject=arg;taskView.tab='active';changePage('tasks')}else if(cmd==='bookpick'){document.getElementById('subject-book-input')?.click()}else if(cmd==='bookopen'){openSubjectBook(arg)}else if(cmd==='bookdelete'){deleteSubjectBook(arg)}else if(cmd==='subject'){ui.sheet='subject|'+arg;renderSheet()}else if(cmd==='date'){ui.date=arg==='today'?today():/^-?\d+$/.test(arg)?add(ui.date,Number(arg)):new Date(arg+'T12:00:00');render()}else if(cmd==='week'){ui.week=(ui.week??parity(ui.date))===0?1:0;render()}else if(cmd==='month'){ui.calendar=new Date(ui.calendar.getFullYear(),ui.calendar.getMonth()+Number(arg),1);render()}else if(cmd==='select'){ui.selected=new Date(arg+'T12:00:00');render()}else if(cmd==='tasktab'){taskView.tab=arg;renderPreservingPosition()}else if(cmd==='notedelete'){if(confirm('Удалить заметку?')){notes=notes.filter(n=>String(n.id)!==arg);put('baumanka_notes_v19',notes);renderPreservingPosition()}}else if(cmd==='focusstart'){focusUntil=Date.now()+(focusLeft||focus.duration*60)*1000;focusRunning=true;renderPreservingPosition()}else if(cmd==='focuspause'){focusLeft=Math.max(0,Math.ceil((focusUntil-Date.now())/1000));focusRunning=false;renderPreservingPosition()}else if(cmd==='focusreset'){focusRunning=false;focusLeft=0;renderPreservingPosition()}else if(cmd==='tasktoggle'){let t=data.tasks.find(x=>String(x.id)===arg);if(t){t.status=done(t)?'В процессе':'Готово';persist();renderPreservingPosition();toast('Статус сохранён')}}else if(cmd==='taskedit'){ui.sheet='task|'+arg;renderSheet()}else if(cmd==='examedit'){ui.sheet='exam|'+arg;renderSheet()}else if(cmd==='taskdelete'){if(confirm('Удалить задание?')){data.tasks=data.tasks.filter(x=>String(x.id)!==arg);persist();ui.sheet=null;render()}}else if(cmd==='examdelete'){if(confirm('Удалить экзамен?')){data.exams=data.exams.filter(x=>String(x.id)!==arg);persist();ui.sheet=null;render()}}else if(cmd==='scoreadd'){let [k,module]=arg.split(':');data.scores.push({id:Math.max(0,...data.scores.map(s=>Number(s.id)||0))+1,sub:k,name:'Модуль '+module,value:0});persist();renderAnchored();toast('Модуль добавлен')}else if(cmd==='scoredelete'){if(confirm('Удалить результат?')){data.scores=data.scores.filter(s=>String(s.id)!==arg);persist();renderAnchored()}}else if(cmd==='prepadd'){let input=document.getElementById('prep-'+arg),v=input?.value.trim();if(v){(data.prep[arg]??=[]).push({title:v,done:false});persist();renderPreservingPosition()}}else if(cmd==='prepdelete'){let i=arg.lastIndexOf(':'),id=arg.slice(0,i),index=Number(arg.slice(i+1));data.prep[id]?.splice(index,1);persist();render()}else if(cmd==='lessondelete'){const i=Number(arg);if(Number.isInteger(i)&&i>=0&&i<customLessons.length&&confirm('Удалить добавленную пару?')){customLessons.splice(i,1);persist();render()}}else if(cmd==='removechange'){data.changes.splice(Number(arg),1);persist();render()}else if(cmd==='hamster'){fun.taps++;localStorage.setItem('baumanka_fun_hamster_taps',String(fun.taps));let el=document.getElementById('hamster-score');if(el)el.textContent=fun.taps.toLocaleString('ru-RU');let h=document.getElementById('hamster-button');if(h){h.classList.remove('bop');void h.offsetWidth;h.classList.add('bop')} }else if(cmd==='hamsterskin'){const skin=hamsterSkins.find(s=>s.id===arg);if(!skin)return;localStorage.setItem(hamsterSkinKey,arg);renderPreservingPosition();toast('Скин «'+skin.name+'» выбран')}else if(cmd==='hamsterreset'){if(confirm('Сбросить счётчик хомяка?')){fun.taps=0;localStorage.setItem('baumanka_fun_hamster_taps','0');render()}}else if(cmd==='zodiac'){fun.sign=arg;localStorage.setItem('baumanka_fun_sign',arg);render()}else if(cmd==='theme')setTheme(arg);else if(cmd==='wallpaper')document.getElementById('wallpaper-file')?.click();else if(cmd==='wallpaperclear'){saveCustomTheme({...readCustomTheme(),wallpaper:''});toast('Фон удалён')}else if(cmd==='avatar')document.getElementById('avatar-file')?.click();else if(cmd==='avatarclear'){data.avatar=null;persist();render()}else if(cmd==='backup')backup();else if(cmd==='restore')document.getElementById('backup-file')?.click()}
@@ -183,48 +183,34 @@ document.addEventListener('submit',ev=>{if(ev.target.id==='editor'){ev.preventDe
 document.addEventListener('change',ev=>{let t=ev.target;if(t.id==='subject-book-input'){addSubjectBooks(Array.from(t.files||[]));t.value=''}if(t.id==='task-subject'){taskView.subject=t.value;refreshTaskResults()}if(t.id==='task-sort'){taskView.sort=t.value;refreshTaskResults()}if(t.id==='focus-duration'){focus.duration=Number(t.value);focusLeft=0;put('baumanka_focus_v19',focus);renderPreservingPosition()}if(t.dataset.score){let x=data.scores.find(s=>String(s.id)===t.dataset.score);if(x){x.value=Math.max(0,Number(t.value)||0);persist();refreshScoreTotals();toast('Баллы сохранены')}}if(t.dataset.pe){data.pe[t.dataset.pe]=Math.max(0,Number(t.value)||0);persist();toast('Сохранено')}if(t.dataset.prep){let i=t.dataset.prep.lastIndexOf(':'),id=t.dataset.prep.slice(0,i),n=Number(t.dataset.prep.slice(i+1));if(data.prep[id]?.[n]){data.prep[id][n].done=t.checked;persist();const pill=t.closest('.panel')?.querySelector('.pill');const arr=data.prep[id]||[];if(pill)pill.textContent=arr.filter(x=>x.done).length+'/'+arr.length}}if(t.id==='zodiac-select'){fun.sign=t.value;localStorage.setItem('baumanka_fun_sign',fun.sign);render()}if(t.id==='custom-accent'||t.id==='custom-opacity'){const c=readCustomTheme();if(t.id==='custom-accent'&&/^#[0-9a-f]{6}$/i.test(t.value))c.accent=t.value;if(t.id==='custom-opacity')c.opacity=Number(t.value);saveCustomTheme(c)}if(t.id==='wallpaper-file'){const f=t.files?.[0];if(f){if(!f.type.startsWith('image/')||f.size>8e6)return toast('Выбери картинку до 8 МБ');const img=new Image(),url=URL.createObjectURL(f);img.onload=()=>{const canvas=document.createElement('canvas'),max=1200,scale=Math.min(1,max/Math.max(img.width,img.height));canvas.width=Math.round(img.width*scale);canvas.height=Math.round(img.height*scale);canvas.getContext('2d').drawImage(img,0,0,canvas.width,canvas.height);URL.revokeObjectURL(url);saveCustomTheme({...readCustomTheme(),wallpaper:canvas.toDataURL('image/jpeg',.72)});toast('Фон сохранён')};img.onerror=()=>{URL.revokeObjectURL(url);toast('Не удалось открыть изображение')};img.src=url}}if(t.id==='backup-file')restore(t.files?.[0]);if(t.id==='avatar-file'){let file=t.files?.[0];if(!file?.type.startsWith('image/'))return;if(file.size>15e6)return toast('Файл слишком большой');let reader=new FileReader();reader.onload=()=>{let img=new Image();img.onload=()=>{let c=document.createElement('canvas');c.width=c.height=320;let x=c.getContext('2d'),side=Math.min(img.width,img.height);x.drawImage(img,(img.width-side)/2,(img.height-side)/2,side,side,0,0,320,320);data.avatar=c.toDataURL('image/jpeg',.8);try{persist();render();toast('Фото обновлено')}catch{toast('Не удалось сохранить фото')}};img.src=reader.result};reader.readAsDataURL(file)}});
 document.addEventListener('keydown',ev=>{if(ev.key==='Escape'&&ui.sheet){ui.sheet=null;renderSheet()}if(ev.key==='Enter'&&ev.target.matches('[role=button][data-action]'))action(ev.target.dataset.action)});
 window.addEventListener('popstate',()=>{if(ui.sheet){ui.sheet=null;renderSheet()}else goBack()});
-if(!localStorage.getItem('baumanka_native24_theme_initialized')){localStorage.setItem('nova_theme','light');localStorage.setItem('baumanka_native24_theme_initialized','1')}let theme=localStorage.getItem('nova_theme')||'light';setTheme(theme);initSmartNav();weather();setInterval(()=>{if(!document.hidden)refreshHomeStatus()},60000);setInterval(focusTick,1000);setInterval(()=>{if(!document.hidden)updateLiveTimeline()},10000);window.addEventListener('resize',updateLiveTimeline);setInterval(()=>{if(!document.hidden)weather()},20*60*1000);document.addEventListener('visibilitychange',()=>{if(!document.hidden){refreshHomeStatus();updateLiveTimeline();weather()}});
+if(!localStorage.getItem('baumanka_native24_theme_initialized')){localStorage.setItem('nova_theme','light');localStorage.setItem('baumanka_native24_theme_initialized','1')}let theme=localStorage.getItem('nova_theme')||'light';setTheme(theme);initSmartNav();weather();setInterval(()=>{if(!document.hidden)refreshHomeStatus()},60000);setInterval(focusTick,1000);setInterval(()=>{if(!document.hidden&&ui.page==='schedule')updateLiveTimeline()},10000);window.addEventListener('resize',updateLiveTimeline);setInterval(()=>{if(!document.hidden)weather()},20*60*1000);document.addEventListener('visibilitychange',()=>{if(!document.hidden){refreshHomeStatus();updateLiveTimeline();weather()}});
 if('serviceWorker'in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js').catch(()=>{});
 })();
 
 // v18: smart mobile tab bar. Ignore micro-scroll, keyboard resizing and desktop sidebar.
+function navDecision(state,y,max,blocked){
+  y=Math.max(0,Math.min(y,max));
+  const delta=y-state.y;
+  if(blocked||y<48||max-y<48)return {y,down:0,hidden:false};
+  if(delta< -0.5)return {y,down:0,hidden:false};
+  const down=state.down+Math.max(0,delta);
+  return {y,down,hidden:state.hidden||down>=55};
+}
 function initSmartNav(){
-  // 2.5.4: predictable scroll-aware navigation for iOS Safari/PWA.
-  const root=document.documentElement;
-  const mobile=()=>window.matchMedia('(max-width:1149px)').matches;
-  let lastY=Math.max(0,window.scrollY),travelDown=0,travelUp=0,frame=0;
-  const show=()=>root.classList.remove('nav-hidden');
-  const hide=()=>{if(mobile()&&!document.hidden)root.classList.add('nav-hidden')};
-  const reset=()=>{lastY=Math.max(0,window.scrollY);travelDown=0;travelUp=0;show()};
-  const keyboardOpen=()=>{
-    const active=document.activeElement;
-    return !!(active&&active.matches('input,textarea,select,[contenteditable="true"]'));
-  };
-  const check=()=>{
-    frame=0;
-    const y=Math.max(0,window.scrollY);
-    const delta=y-lastY;
-    lastY=y;
-    if(!mobile()||keyboardOpen()||y<85){reset();return}
-    // At the end of a document the bar must remain reachable, even with iOS bounce.
-    const maxY=Math.max(0,document.documentElement.scrollHeight-window.innerHeight);
-    if(maxY-y<75){show();travelDown=0;return}
-    if(Math.abs(delta)<1.5)return;
-    if(delta<0){travelUp+=-delta;travelDown=0;if(travelUp>10)show()}
-    else{travelDown+=delta;travelUp=0;if(travelDown>65)hide()}
-  };
+  const root=document.documentElement, mq=matchMedia('(max-width:1149px)');
+  const scroller=()=>document.scrollingElement||root;
+  let state={y:0,down:0,hidden:false},frame=0, idle=0,touch=null;
+  const apply=()=>root.classList.toggle('nav-hidden',state.hidden);
+  const reset=()=>{state={y:Math.max(0,scroller().scrollTop),down:0,hidden:false};apply();clearTimeout(idle)};
+  const check=()=>{frame=0;const el=scroller();const blocked=!mq.matches||document.hidden||!!ui.sheet||!!document.activeElement?.matches('input,textarea,select,[contenteditable=true]')||!!document.querySelector('.nav-dragging');state=navDecision(state,el.scrollTop,Math.max(0,el.scrollHeight-el.clientHeight),blocked);apply();clearTimeout(idle);if(state.hidden)idle=setTimeout(reset,1200)};
   window.addEventListener('scroll',()=>{if(!frame)frame=requestAnimationFrame(check)},{passive:true});
-  window.addEventListener('pageshow',reset);
-  window.addEventListener('resize',reset,{passive:true});
-  window.addEventListener('orientationchange',reset,{passive:true});
-  window.addEventListener('focusin',show);
-  document.addEventListener('visibilitychange',()=>{if(!document.hidden)reset()});
-  document.addEventListener('pointerdown',ev=>{if(ev.target instanceof Element&&ev.target.closest('#nova-nav'))show()},{passive:true});
-  // An explicit upward touch gesture reveals the bar even before scrolling begins.
-  let touchY=null;
-  document.addEventListener('touchstart',ev=>{if(ev.touches.length===1)touchY=ev.touches[0].clientY},{passive:true});
-  document.addEventListener('touchmove',ev=>{if(touchY===null||ev.touches.length!==1)return;const y=ev.touches[0].clientY;if(y-touchY>18){show();touchY=y}},{passive:true});
-  document.addEventListener('touchend',()=>{touchY=null},{passive:true});
+  for(const event of ['pageshow','resize','orientationchange','focusin'])window.addEventListener(event,reset,{passive:true});
+  document.addEventListener('visibilitychange',reset);
+  document.addEventListener('touchstart',e=>{touch=e.touches.length===1?e.touches[0].clientY:null},{passive:true});
+  document.addEventListener('touchmove',e=>{if(touch!==null&&e.touches.length===1&&e.touches[0].clientY-touch>8){reset();touch=e.touches[0].clientY}},{passive:true});
+  for(const event of ['touchend','touchcancel'])document.addEventListener(event,()=>{touch=null},{passive:true});
+  document.addEventListener('pointerdown',e=>{if(e.target instanceof Element&&e.target.closest('#nova-nav'))reset()},{passive:true});
+  window.addEventListener('baumanka:navigation',reset);
   reset();
 }
 
@@ -252,7 +238,7 @@ function initSmartNav(){
   };
   document.addEventListener('pointerdown',ev=>{
     const button=ev.target instanceof Element?ev.target.closest('#nova-nav .nav button[data-action^="page:"]'):null;
-    if(!button||ev.button!==0||matchMedia('(min-width:1150px)').matches)return;
+    if(gesture||!button||ev.button!==0||matchMedia('(min-width:1150px)').matches)return;
     const bar=button.closest('.nav');
     gesture={id:ev.pointerId,button,bar,x:ev.clientX,y:ev.clientY,initial:pages.indexOf(ui.page),moved:false};
     try{button.setPointerCapture(ev.pointerId)}catch(_){/* Safari may refuse capture */}
@@ -281,6 +267,7 @@ function initSmartNav(){
   };
   document.addEventListener('pointerup',ev=>finish(ev,false));
   document.addEventListener('pointercancel',ev=>finish(ev,true));
+  document.addEventListener('lostpointercapture',ev=>finish(ev,true));
   document.addEventListener('click',ev=>{
     if(performance.now()<suppressClickUntil&&ev.target instanceof Element&&ev.target.closest('#nova-nav .nav')){
       ev.preventDefault();ev.stopImmediatePropagation();

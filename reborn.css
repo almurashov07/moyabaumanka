@@ -879,3 +879,11 @@ html.bento-sidebar-open .shell{padding-left:112px!important}
 #nova-content .v2-schedule .v2-lesson-info{position:relative;z-index:1}
 #nova-content .v2-schedule .v2-time,
 #nova-content .v2-schedule .v2-timeline-marker{background:transparent!important;box-shadow:none!important;border:0!important}
+
+/* Stable mobile navigation: one transform owner, no page-wide animation on refresh. */
+@media(max-width:1149px){
+ #nova-nav .nav{transform:translate3d(-50%,0,0)!important;opacity:1!important;pointer-events:auto!important;transition:transform 300ms cubic-bezier(.22,1,.36,1),opacity 180ms ease!important}
+ html.nav-hidden #nova-nav .nav{transform:translate3d(-50%,calc(100% + 40px + env(safe-area-inset-bottom)),0)!important;opacity:0!important;pointer-events:none!important}
+}
+#nova-content:not(.page-enter)>.page{animation:none!important}
+@media(prefers-reduced-motion:reduce){#nova-nav .nav{transition:none!important}}
