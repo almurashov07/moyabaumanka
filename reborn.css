@@ -900,3 +900,23 @@ html,body{transform:none!important;filter:none!important;perspective:none!import
 :root #nova-content{padding-bottom:calc(100px + env(safe-area-inset-bottom))!important}
 }
 @media(prefers-reduced-motion:reduce){:root body>#nova-nav,:root body>#nova-nav .nav-indicator{transition:none!important}}
+/* 3.0 BMSTU: restrained shared palette, independent desktop rail. */
+:root[data-theme=dark]{--bg:#0d1117;--surface:#151c25;--raised:#1c2633;--line:#293442;--text:#f0f3f7;--muted:#a5b0bf;--accent:#65aaff;--blue:#65aaff;--nav:#151e2beF;--glass:#151c25;color-scheme:dark}
+:root[data-theme=dark] body,:root[data-theme=dark] html{background:var(--bg)!important;color:var(--text)!important}
+#bm-desktop{display:none}
+:root .native-dashboard .native-extra.bm-weather{display:flex!important;flex-direction:column;align-items:flex-start;justify-content:center;gap:10px;padding:16px!important}
+:root .native-dashboard .bm-weather strong{font-size:24px!important}
+:root .native-dashboard .native-mast h2{font-size:30px!important;letter-spacing:-.035em!important}
+:root .native-dashboard .native-live,:root .native-dashboard .native-schedule,:root .native-dashboard .native-tasks,:root .native-dashboard .native-extra{border-radius:16px!important;box-shadow:none!important}
+:root[data-theme=dark] .native-dashboard .native-timer{background:#20354e!important;color:#d6e8ff!important}
+:root[data-theme=dark] .native-dashboard .native-live-dot,:root[data-theme=dark] #nova-lesson-progress{background:#65aaff!important}
+:root[data-theme=dark] .native-dashboard .native-schedule-row.is-current{background:#20354e!important}
+@media(min-width:1150px){
+#bm-desktop{display:flex;flex-direction:column;gap:5px;position:fixed;inset:0 auto 0 0;width:230px;padding:22px 14px;background:var(--surface);border-right:1px solid var(--line);z-index:40;overflow:auto;box-sizing:border-box}
+.bm-brand{display:flex;align-items:center;gap:12px;padding:8px 6px 24px;color:var(--text)}.bm-brand small{display:block;font-size:10px;color:var(--muted);margin-top:4px}.bm-brand strong{font-size:16px}.bm-brand svg{flex:none;color:var(--accent)}
+#bm-desktop button{display:flex;align-items:center;gap:13px;text-align:left;padding:12px;border:0;border-radius:8px;background:transparent;color:var(--text);font-size:14px;cursor:pointer;transition:background .2s,color .2s}#bm-desktop button.selected,#bm-desktop button:hover{background:var(--raised);color:var(--accent)}
+:root body>#nova-nav,:root #bento-sidebar-toggle{display:none!important}
+:root #nova-content.shell{margin:0 auto!important;max-width:1600px!important;padding:32px 32px 48px 262px!important;box-sizing:border-box!important}
+:root .native-dashboard .native-extras{grid-column:1/-1!important;display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:12px!important}
+}
+@media(max-width:1149px){:root .native-dashboard .native-extras{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important}:root .native-dashboard .native-extra{min-width:0!important;overflow-wrap:anywhere}:root .native-dashboard .bm-weather{grid-column:1/-1!important}}
