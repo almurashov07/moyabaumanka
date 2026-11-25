@@ -887,3 +887,16 @@ html.bento-sidebar-open .shell{padding-left:112px!important}
 }
 #nova-content:not(.page-enter)>.page{animation:none!important}
 @media(prefers-reduced-motion:reduce){#nova-nav .nav{transition:none!important}}
+
+/* 2.6.3: independent viewport overlay */
+@media(max-width:1149px){
+html,body{transform:none!important;filter:none!important;perspective:none!important;will-change:auto!important;contain:none!important}
+:root body>#nova-nav{position:fixed!important;inset:auto 0 calc(12px + env(safe-area-inset-bottom)) 0!important;width:min( calc(100% - 48px), 380px)!important;max-width:none!important;margin:0 auto!important;z-index:100!important;transform:translate3d(0,0,0)!important;opacity:1!important;pointer-events:auto!important;transition:transform 320ms cubic-bezier(.22,1,.36,1),opacity 220ms ease!important;will-change:transform,opacity}
+:root body>#nova-nav .nav{position:relative!important;inset:auto!important;margin:0!important;width:100%!important;max-width:none!important;transform:none!important;opacity:1!important;pointer-events:auto!important;display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:6px!important;padding:5px!important;border-radius:28px!important;backdrop-filter:blur(20px)!important;-webkit-backdrop-filter:blur(20px)!important}
+:root.nav-hidden body>#nova-nav{transform:translate3d(0,calc(100% + 24px + env(safe-area-inset-bottom)),0)!important;opacity:0!important;pointer-events:none!important}
+:root.nav-hidden body>#nova-nav .nav{pointer-events:none!important}
+:root body>#nova-nav .nav-indicator{opacity:1!important;animation:none!important;width:calc((100% - 34px)/5)!important;left:5px!important;transition:transform 360ms cubic-bezier(.22,1,.36,1)!important}
+:root body>#nova-nav .nav button{background:transparent!important;min-width:0!important;height:48px!important}
+:root #nova-content{padding-bottom:calc(100px + env(safe-area-inset-bottom))!important}
+}
+@media(prefers-reduced-motion:reduce){:root body>#nova-nav,:root body>#nova-nav .nav-indicator{transition:none!important}}
