@@ -185,32 +185,29 @@ document.addEventListener('keydown',ev=>{if(ev.key==='Escape'&&ui.sheet){ui.shee
 window.addEventListener('popstate',()=>{if(ui.sheet){ui.sheet=null;renderSheet()}else goBack()});
 if(!localStorage.getItem('baumanka_native24_theme_initialized')){localStorage.setItem('nova_theme','light');localStorage.setItem('baumanka_native24_theme_initialized','1')}let theme=localStorage.getItem('nova_theme')||'light';setTheme(theme);initSmartNav();weather();setInterval(()=>{if(!document.hidden)refreshHomeStatus()},60000);setInterval(focusTick,1000);setInterval(()=>{if(!document.hidden&&ui.page==='schedule')updateLiveTimeline()},10000);window.addEventListener('resize',updateLiveTimeline);setInterval(()=>{if(!document.hidden)weather()},20*60*1000);document.addEventListener('visibilitychange',()=>{if(!document.hidden){refreshHomeStatus();updateLiveTimeline();weather()}});
 if('serviceWorker'in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js').catch(()=>{});
-})();
+
 
 // v18: smart mobile tab bar. Ignore micro-scroll, keyboard resizing and desktop sidebar.
 function navDecision(state,y,max,blocked){
   y=Math.max(0,Math.min(y,max));
   const delta=y-state.y;
-  if(blocked||y<48||max-y<48)return {y,down:0,hidden:false};
-  if(delta< -0.5)return {y,down:0,hidden:false};
+  if(blocked||y<=2)return {y,down:0,hidden:false};
+  if(delta<0)return {y,down:0,hidden:false};
   const down=state.down+Math.max(0,delta);
-  return {y,down,hidden:state.hidden||down>=55};
+  return {y,down,hidden:state.hidden||down>=8};
 }
 function initSmartNav(){
-  const root=document.documentElement, mq=matchMedia('(max-width:1149px)');
+  const root=document.documentElement,mq=matchMedia('(max-width:1149px)');
   const scroller=()=>document.scrollingElement||root;
-  let state={y:0,down:0,hidden:false},frame=0, idle=0,touch=null;
+  let state={y:0,down:0,hidden:false},frame=0;
   const apply=()=>root.classList.toggle('nav-hidden',state.hidden);
-  const reset=()=>{state={y:Math.max(0,scroller().scrollTop),down:0,hidden:false};apply();clearTimeout(idle)};
-  const check=()=>{frame=0;const el=scroller();const blocked=!mq.matches||document.hidden||!!ui.sheet||!!document.activeElement?.matches('input,textarea,select,[contenteditable=true]')||!!document.querySelector('.nav-dragging');state=navDecision(state,el.scrollTop,Math.max(0,el.scrollHeight-el.clientHeight),blocked);apply();clearTimeout(idle);if(state.hidden)idle=setTimeout(reset,1200)};
+  const reset=()=>{if(frame)cancelAnimationFrame(frame);frame=0;const el=scroller();state={y:Math.max(0,Math.min(el.scrollTop,el.scrollHeight-el.clientHeight)),down:0,hidden:false};apply()};
+  const check=()=>{frame=0;const el=scroller();const blocked=!mq.matches||document.hidden||!!ui.sheet||!!document.activeElement?.matches('input,textarea,select,[contenteditable=true]')||!!document.querySelector('.nav-dragging');state=navDecision(state,el.scrollTop,Math.max(0,el.scrollHeight-el.clientHeight),blocked);apply()};
   window.addEventListener('scroll',()=>{if(!frame)frame=requestAnimationFrame(check)},{passive:true});
-  for(const event of ['pageshow','resize','orientationchange','focusin'])window.addEventListener(event,reset,{passive:true});
+  for(const event of ['pageshow','orientationchange','focusin','baumanka:navigation'])window.addEventListener(event,reset,{passive:true});
   document.addEventListener('visibilitychange',reset);
-  document.addEventListener('touchstart',e=>{touch=e.touches.length===1?e.touches[0].clientY:null},{passive:true});
-  document.addEventListener('touchmove',e=>{if(touch!==null&&e.touches.length===1&&e.touches[0].clientY-touch>8){reset();touch=e.touches[0].clientY}},{passive:true});
-  for(const event of ['touchend','touchcancel'])document.addEventListener(event,()=>{touch=null},{passive:true});
+  mq.addEventListener?.('change',reset);
   document.addEventListener('pointerdown',e=>{if(e.target instanceof Element&&e.target.closest('#nova-nav'))reset()},{passive:true});
-  window.addEventListener('baumanka:navigation',reset);
   reset();
 }
 
@@ -312,4 +309,6 @@ function initSmartNav(){
  document.addEventListener('pointercancel',reset);
  document.addEventListener('click',ev=>{if(ignoreClick){ignoreClick=false;ev.preventDefault();ev.stopImmediatePropagation()}},true);
  document.addEventListener('keydown',ev=>{if(!bentoEditMode||!ev.target?.classList?.contains('bento-drag-handle'))return;const w=widgetOf(ev.target),a=bentoOrder(),i=a.indexOf(w?.dataset.bentoWidget);if(ev.key==='ArrowUp'&&i>0){ev.preventDefault();bentoMove(a[i],a[i-1])}if(ev.key==='ArrowDown'&&i<a.length-1){ev.preventDefault();bentoMove(a[i],a[i+1])}});
+})();
+
 })();
