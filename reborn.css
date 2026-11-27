@@ -1992,3 +1992,80 @@ body{
 #nova-content .bm342-settings input[type=range]{width:42%;min-width:0}
 #nova-content .bm342-settings .bm34-settings label{font-size:14px;color:var(--text)}
 #nova-content .native-dashboard .native-stats .ld-stat strong.native-week{white-space:nowrap;overflow-wrap:normal;word-break:normal}
+
+/* 4.0 Liquid Glass — flat content, sculpted controls. */
+:root[data-theme=dark]{--bg:#0c0d10;--surface:#16181d;--raised:#22252b;--text:#f3f4f7;--muted:#a5aab5;--line:#ffffff18;--line-strong:#ffffff35;--accent:#86aaff;--nav:#20232bb8}
+:root[data-theme=winter]{--bg:#0c1017;--surface:#151b24;--raised:#202a37;--line:#b4d4ff24;--nav:#202b3bb8}
+:root:not([data-theme=custom]) body{background-image:none!important;background-color:var(--bg)!important}
+:root #nova-content .native-dashboard{gap:18px!important}
+:root #nova-content .native-dashboard .native-mast{align-items:flex-start!important;gap:8px!important;padding:8px 0!important}
+:root #nova-content .native-mast h2{font-size:19px!important;font-weight:550!important;letter-spacing:-.035em!important;margin:0 0 22px!important}
+:root #nova-content .native-mast .native-date{display:block;font-size:clamp(23px,6vw,34px)!important;font-weight:450!important;letter-spacing:-.045em!important;text-transform:none!important;color:var(--text)!important;line-height:1.2}
+.lg4-dayline{font-size:12px;color:var(--muted);margin-top:7px;line-height:1.5}.lg4-dayline #nova-weather{display:inline-block;margin-left:8px}
+:root #nova-content .native-dashboard .native-mast-actions{gap:5px!important;flex-wrap:wrap;justify-content:flex-end}
+:root #nova-content .native-dashboard .native-mast-actions button{border-radius:999px!important;min-width:36px!important;min-height:36px!important;background:var(--raised)!important;box-shadow:inset 0 1px 1px #ffffff25!important;border:1px solid var(--line-strong)!important}
+:root #nova-content .native-dashboard:not(.exam-mode-home) .native-live{isolation:isolate;overflow:visible!important;border:0!important;border-radius:0!important;background:none!important;box-shadow:none!important;padding:clamp(28px,8vw,44px) clamp(24px,7vw,48px)!important;margin:14px 0 12px!important;min-height:210px;display:flex;flex-direction:column;justify-content:center;gap:12px}
+:root #nova-content .native-dashboard:not(.exam-mode-home) .native-live::before{content:'';position:absolute;inset:0!important;width:auto!important;height:auto!important;z-index:-1;border-radius:44% 56% 40% 60% / 53% 43% 57% 47%;background:radial-gradient(ellipse at 13% 8%,#b9d6ff50,transparent 35%),radial-gradient(ellipse at 90% 95%,#82b8ff55,transparent 38%),linear-gradient(155deg,color-mix(in srgb,var(--surface) 75%,#9ab9ed),var(--bg) 53%,var(--surface))!important;border:1px solid #b9d5ff85;box-shadow:inset 0 2px 6px #d8e8ff70,inset 0 -4px 13px #91baff50,0 10px 30px #0003;pointer-events:none;animation:lg4-breathe 14s ease-in-out infinite alternate}
+:root #nova-content .native-dashboard:not(.exam-mode-home) .native-live::after{content:'';position:absolute;inset:-12px 12px -14px;z-index:-2;border:1px solid var(--line);border-radius:58% 42% 55% 45% / 48% 56% 44% 52%;background:color-mix(in srgb,var(--surface) 45%,transparent);transform:rotate(-8deg);pointer-events:none}
+@keyframes lg4-breathe{to{border-radius:48% 52% 46% 54% / 47% 51% 49% 53%}}
+:root #nova-content .native-dashboard .native-live-main{display:flex!important;align-items:center!important;gap:10px!important;min-width:0}
+:root #nova-content .native-dashboard .native-subject h3{font-size:clamp(18px,5vw,26px)!important;font-weight:550!important;letter-spacing:-.035em!important;line-height:1.2!important}
+:root #nova-content .native-dashboard .native-timer{background:transparent!important;border:0!important;box-shadow:none!important;padding:0!important;min-width:65px!important;max-width:110px!important}
+:root #nova-content .native-dashboard .native-timer strong{font-size:clamp(16px,4.5vw,23px)!important;font-weight:550!important}
+:root #nova-content .native-dashboard .native-live-title .native-fraction{background:transparent!important;border:0!important;padding:0!important}
+:root #nova-content .native-dashboard .smart-day-meta{font-size:11px!important;line-height:1.4}
+:root #nova-content .native-dashboard .native-progress{height:5px!important;background:var(--line)!important;border:0!important}
+:root #nova-content .native-dashboard #nova-lesson-progress{background:var(--text)!important;transition:width .5s ease}
+:root #nova-content .native-dashboard :is(.native-schedule,.native-tasks,.native-extra,.ld-stat){background:transparent!important;border:0!important;box-shadow:none!important;border-radius:0!important}
+:root #nova-content .native-dashboard :is(.native-schedule,.native-tasks){padding:0!important}
+:root #nova-content .native-dashboard .native-stats .ld-stat{min-height:48px!important;padding:6px 8px!important;display:flex!important;flex-direction:row!important;align-items:center!important;gap:6px!important;flex-wrap:wrap;justify-content:center!important}
+:root #nova-content .native-dashboard .native-stats .ld-stat strong{font-size:18px!important;font-weight:550!important}
+:root #nova-content .native-dashboard .native-stats .ld-stat span{font-size:10px!important;line-height:1.25!important}
+:root #nova-content .native-dashboard .native-stats .ld-stat svg{width:15px!important;height:15px!important}
+:root #nova-content .native-dashboard .native-card-head h3{font-size:16px!important;font-weight:550!important}
+:root #nova-content .native-dashboard :is(.native-schedule-row,.native-task-row){background:transparent!important;box-shadow:none!important;border:0!important;border-bottom:1px solid var(--line)!important;border-radius:0!important;padding:10px 0!important;min-height:44px!important}
+:root #nova-content .native-dashboard .native-schedule-row.is-current{color:var(--accent)!important}
+:root #nova-content .native-dashboard .native-extra{border-bottom:1px solid var(--line)!important;padding:8px!important}
+:root #nova-content .bm34-fold{background:transparent!important;border:0!important;min-width:30px!important;padding:4px!important;color:var(--muted)!important}
+:root #nova-content .native-dashboard .native-live.bm34-collapsed{min-height:0!important;padding:20px 28px!important}
+:root #nova-content .v2-screen .v2-page-heading h2{font-size:28px!important;font-weight:550!important;letter-spacing:-.04em!important}
+:root #nova-content .v2-screen .v2-page-heading .v2-overline{display:none}
+:root #nova-content .v2-screen .v2-page-heading p{font-size:12px!important}
+:root #nova-content .v2-schedule .v2-weekbar{margin-bottom:14px!important;background:none!important;border:0!important;box-shadow:none!important}
+:root #nova-content .v2-schedule .v2-day{background:transparent!important;border:1px solid transparent!important;box-shadow:none!important;min-height:52px!important;border-radius:17px!important}
+:root #nova-content .v2-schedule .v2-day.is-current,:root #nova-content .v2-segments button.selected{background:linear-gradient(145deg,var(--raised),var(--surface))!important;color:var(--text)!important;border:1px solid var(--line-strong)!important;box-shadow:inset 0 1px 2px #ffffff35!important}
+:root #nova-content .v2-schedule .v2-lesson{grid-template-columns:18px minmax(0,1fr)!important;gap:12px!important;margin:0!important;padding:0!important;align-items:stretch!important}
+:root #nova-content .v2-schedule .v2-time{display:none!important}
+:root #nova-content .v2-schedule .v2-timeline-marker{grid-column:1;grid-row:1;min-height:100%;padding-top:18px!important}
+:root #nova-content .v2-schedule .v2-lesson-info{grid-column:2;grid-row:1;background:transparent!important;border:0!important;border-bottom:1px solid var(--line)!important;border-radius:0!important;box-shadow:none!important;padding:10px 0 12px!important}
+:root #nova-content .v2-schedule .v2-lesson.is-live .v2-lesson-info{background:transparent!important;box-shadow:none!important;border-color:var(--line)!important}
+:root #nova-content .v2-schedule .v2-lesson-info h4{font-size:16px!important;font-weight:550!important;line-height:1.3!important;margin:4px 0!important}
+:root #nova-content .v2-schedule .v2-lesson-top{font-size:11px!important;color:var(--muted)!important}
+:root #nova-content .v2-schedule .v2-lesson-info p{font-size:12px!important;margin:3px 0!important}
+:root #nova-content .v2-tasks .v2-task-row{position:relative;display:grid!important;grid-template-columns:minmax(0,1fr) 32px 28px 30px!important;gap:5px!important;align-items:center!important;background:transparent!important;border:0!important;border-bottom:1px solid var(--line)!important;border-radius:0!important;box-shadow:none!important;padding:12px 0 12px 12px!important;margin:0!important}
+:root #nova-content .v2-tasks .v2-task-row::before{content:'';position:absolute;left:0;top:14px;bottom:14px;width:3px;border-radius:3px;background:var(--task-color,var(--accent))}
+:root #nova-content .v2-tasks .v2-task-copy{grid-column:1;grid-row:1;min-width:0}
+:root #nova-content .v2-tasks .v2-task-copy strong{font-size:14px!important;font-weight:550!important;line-height:1.4!important}
+:root #nova-content .v2-tasks .v2-task-copy .lg4-task-meta{display:flex!important;justify-content:space-between;gap:6px;font-size:11px!important;line-height:1.4!important;margin-bottom:4px;color:var(--muted)!important}
+.lg4-task-meta time{white-space:nowrap;color:var(--accent)}
+:root #nova-content .v2-tasks .v2-check{grid-column:4;grid-row:1;width:23px!important;height:23px!important;min-width:0!important;border-radius:50%!important;background:transparent!important;border:1px solid var(--muted)!important}
+:root #nova-content .v2-tasks .v2-check.is-done{background:var(--accent)!important;color:var(--bg)!important}
+:root #nova-content .v2-tasks .bm34-pin{grid-column:2;grid-row:1}
+:root #nova-content .v2-tasks .v2-edit{grid-column:3;grid-row:1}
+:root #nova-content .v2-tasks :is(.bm34-pin,.v2-edit){background:none!important;border:0!important;box-shadow:none!important;padding:2px!important;min-width:0!important;color:var(--muted)!important}
+:root #nova-content .v2-task-filters{gap:8px!important;margin:8px 0!important}
+:root #nova-content .v2-task-filters select{font-size:12px!important;min-height:36px!important;padding:6px!important}
+:root #nova-content .v2-add{background:var(--raised)!important;color:var(--text)!important;border:1px solid var(--line-strong)!important;border-radius:50%!important;box-shadow:inset 0 1px 2px #ffffff30!important}
+:root #nova-content .page :is(.panel,.subject,.list-row){box-shadow:none!important;border-color:var(--line)!important}
+@media(max-width:1149px){
+:root body>#nova-nav{width:min(calc(100% - 32px),420px)!important}
+:root body>#nova-nav .nav{border-radius:999px!important;background:color-mix(in srgb,var(--nav) 85%,transparent)!important;border:1px solid #aebdd35c!important;box-shadow:inset 0 1px 2px #ffffff50,inset 0 -1px 2px #ffffff20,0 8px 24px #0004!important;backdrop-filter:blur(22px) saturate(150%)!important;-webkit-backdrop-filter:blur(22px) saturate(150%)!important}
+:root body>#nova-nav .nav-indicator{border-radius:999px!important;background:linear-gradient(150deg,#d4e2ff35,#8fa4c218 55%,#c5d8ff40)!important;border:1px solid #d2e1ff70!important;box-shadow:inset 0 1px 3px #ffffff55,inset 0 -2px 4px #c2d8ff30!important;transition:transform 420ms cubic-bezier(.2,.8,.2,1)!important}
+:root body>#nova-nav .nav button.active{color:var(--text)!important}
+:root body>#nova-nav .nav button:active{transform:scale(.92)!important}
+:root #nova-content .native-dashboard{padding-bottom:100px!important}
+}
+@media(prefers-reduced-motion:reduce){:root #nova-content .native-dashboard .native-live::before{animation:none!important}:root body>#nova-nav .nav-indicator{transition:none!important}}
+:root body>#nova-nav .nav.nav-dragging .nav-indicator{transition:none!important;box-shadow:inset 0 1px 4px #ffffff80,0 0 12px #b4d3ff35!important}
+:root #nova-content .native-dashboard .native-mast{display:flex!important}
+:root #nova-content .native-dashboard .native-mast>div:first-child{min-width:0;flex:1}

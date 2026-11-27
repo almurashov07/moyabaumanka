@@ -1,5 +1,5 @@
-const CACHE='baumanka-nova-v300-bmstu-342';
-const CORE=['./','./index.html','./styles.css?v=3420','./reborn.css?v=3420','./seed.js?v=3420','./app.js?v=3420','./horoscope.js?v=3420','./manifest.webmanifest','./icon-192.png','./icon-512.png','./chibis.jpeg','./siply.jpeg','./basmach.jpeg','./sych.jpeg','./shershavy.jpeg','./campus-art.jpg'];
+const CACHE='baumanka-nova-v300-bmstu-400';
+const CORE=['./','./index.html','./styles.css?v=4000','./reborn.css?v=4000','./seed.js?v=4000','./app.js?v=4000','./horoscope.js?v=4000','./manifest.webmanifest','./icon-192.png','./icon-512.png','./chibis.jpeg','./siply.jpeg','./basmach.jpeg','./sych.jpeg','./shershavy.jpeg','./campus-art.jpg'];
 self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(CORE)).then(()=>self.skipWaiting())));
 self.addEventListener('activate',event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith('baumanka-nova-')&&k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
 self.addEventListener('fetch',event=>{
