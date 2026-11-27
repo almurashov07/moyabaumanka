@@ -324,12 +324,12 @@ html.bento-sidebar-open .shell{padding-left:112px!important}
 #nova-content .page:has(.calendar-grid) .panel,#nova-content .page:has(.calendar-grid) .day{border-radius:18px!important}
 #nova-content .page .calendar-grid,#nova-content .page .calendar-head{min-width:0}
 /* Profile, themes and settings */
-#nova-content .page:has(.appearance-panel)>.panel:first-of-type{background:#202820!important;color:#fff!important;border-color:#202820!important}
-#nova-content .page:has(.appearance-panel)>.panel:first-of-type .sub{color:#C6D3BD}
+
+
 #nova-content .page:has(.appearance-panel) .appearance-panel{padding:22px}
 #nova-content .page:has(.appearance-panel) .theme-grid{gap:10px}
 #nova-content .page:has(.appearance-panel) .theme-choice{border-radius:18px!important;padding:12px}
-#nova-content .page:has(.appearance-panel) .theme-choice.selected{border-color:#597E2D!important;outline:2px solid #597E2D;outline-offset:1px}
+#nova-content .page:has(.appearance-panel) .theme-choice.selected{border-color:var(--accent)!important;outline:2px solid var(--accent);outline-offset:1px}
 /* Entertainment and tools: keep distinct gameplay artwork but match containers */
 .fun-page .fun-intro,.nachert-page .nachert-hero{border-radius:23px;padding:25px;background:#202820;color:#fff;margin-bottom:14px}
 .fun-page .fun-intro p,.nachert-page .nachert-hero p{color:#C6D3BD}
@@ -1980,3 +1980,15 @@ body{
 @media(max-width:600px){#nova-sheet .task-editor-backdrop #editor{grid-template-columns:minmax(0,1fr)}#nova-sheet .task-editor-backdrop .kicker{font-size:10px;letter-spacing:.06em}}
 @keyframes bm341-pop{from{opacity:0;transform:translateY(10px) scale(.97)}to{opacity:1;transform:none}}
 @media(prefers-reduced-motion:reduce){#nova-sheet .task-editor-backdrop .sheet{animation:none}}
+
+/* 3.4.2 clean profile and settings */
+@media(max-width:1149px){.bm34-tools{display:none!important}}
+#nova-content .page:is(.bm342-profile,.bm342-settings) .panel{background:var(--surface)!important;color:var(--text)!important;border:1px solid var(--line)!important;box-shadow:none!important}
+#nova-content .bm342-settings .bm34-settings h3{margin:0 0 12px;font-size:18px}
+#nova-content .bm342-settings .bm34-segments{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px}
+#nova-content .bm342-settings .bm34-segments button{min-width:0;padding:8px 3px;font-size:clamp(11px,3.2vw,15px);background:var(--raised);color:var(--text);border-color:var(--line);min-height:44px}
+#nova-content .bm342-settings .bm34-segments button[aria-pressed=true]{background:var(--accent);color:var(--bg);border-color:var(--accent)}
+#nova-content .bm342-settings input{accent-color:var(--accent)}
+#nova-content .bm342-settings input[type=range]{width:42%;min-width:0}
+#nova-content .bm342-settings .bm34-settings label{font-size:14px;color:var(--text)}
+#nova-content .native-dashboard .native-stats .ld-stat strong.native-week{white-space:nowrap;overflow-wrap:normal;word-break:normal}
