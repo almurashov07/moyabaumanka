@@ -10,7 +10,7 @@ function syncSnow(){
  f.style.cssText=`--x:${Math.random()*100}%;--size:${2+Math.random()*5}px;--fall:${duration}s;--delay:${-Math.random()*duration}s;--drift:${Math.random()*70-35}px;--alpha:${0.35+Math.random()*0.45};--spin:${Math.random()<0.5?-180:180}deg`;
  layer.appendChild(f)}document.body.appendChild(layer);
 }
-const APP_VERSION='4.0.2';
+const APP_VERSION='4.0.3';
 const seed=window.BAUMAN_SEED,S=seed.subjects,keys=['btasks','bscores','bpe','bauman_exams_v4','bauman_avatar_v1','bauman_profile_name_v1','baumanka_v11_changes','baumanka_v11_prep','baumanka_v11_dashboard','bauman_exam_draw_migrated','baumanka_fun_hamster_taps','baumanka_fun_sign','nova_theme','nova_custom_theme_v18','baumanka_hamster_skin_v181','baumanka_hamster_owned_v181','baumanka_notes_v19','baumanka_focus_v19','baumanka_custom_lessons_v2052','baumanka_auto_season_v32','baumanka_subject_colors_v33','baumanka_exam_mode_v33','baumanka_exam_questions_v33','baumanka_notify_v33','baumanka_widgets_hidden_v33','baumanka_snow_v331'];
 const uiBackupKeys=['bm_theme_background','baumanka_bento_layout_v223','bm34_ui','bm34_snow_density','bm34_sidebar','bm34_collapsed','bm34_sizes'];
 const read=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch{return d}},put=(k,v)=>{localStorage.setItem(k,JSON.stringify(v))};
@@ -295,7 +295,7 @@ function updateLiveTimeline(){
  line.style.top=`${Math.max(0,Math.min(track.offsetHeight,y))}px`;
  line.querySelector('#live-clock-time').textContent=`${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
 }
-function render(){document.documentElement.dataset.density=compactPrefs().density;syncSnow();const pages={home,schedule:schedulePage,tasks:tasksPage,study:studyPage,calendar:calendarPage,subjectDetail:subjectDetailPage,nachert:nachertPage,profile:profilePage,settings:settingsPage,controls:controlsPage,pe:pePage,fun:funPage,ben:benPage};const app=document.getElementById('app');if(!app.querySelector('#nova-content'))app.innerHTML='<div id="page-scroll"><main id="nova-content" class="shell"></main></div><button id="bento-sidebar-toggle" type="button" aria-label="Показать или скрыть боковую панель" aria-expanded="false" title="Показать меню">☰</button><div id="nova-sheet"></div>';const main=app.querySelector('#nova-content');let desk=document.getElementById('bm-desktop');const railKey=[ui.page,ui.study,isExamMode(),effectiveTheme(),isAutoSeason()].join('/');if(!desk||desk.dataset.state!==railKey){if(desk)desk.outerHTML=desktopNav();else app.insertAdjacentHTML('afterbegin',desktopNav());document.getElementById('bm-desktop').dataset.state=railKey}const next=head()+(pages[ui.page]||home)();const changing=main.dataset.page!==ui.page;main.dataset.page=ui.page;main.classList.toggle('page-enter',changing);main.innerHTML=next;applyBentoLayout();compactDecorate(main);let navigation=document.getElementById('nova-nav');if(!navigation){navigation=document.createElement('div');navigation.id='nova-nav';document.body.appendChild(navigation);}if(!navigation.querySelector('.nav')){navigation.innerHTML=nav();navigation.dataset.page=ui.page}else if(navigation.dataset.page!==ui.page){const pages=['home','schedule','tasks','study','profile'];const idx=pages.indexOf(ui.page);const bar=navigation.querySelector('.nav');const indicator=bar.querySelector('.nav-indicator');const previous=pages.indexOf(navigation.dataset.page);bar.querySelectorAll('button[data-action^="page:"]').forEach((button,i)=>{const active=i===idx;button.classList.toggle('active',active);button.setAttribute('aria-current',active?'page':'false')});if(indicator&&idx>=0){indicator.style.transform=`translateX(calc(${idx*100}% + ${idx*6}px))`;indicator.classList.remove('nav-indicator-moving');void indicator.offsetWidth;indicator.classList.add('nav-indicator-moving');indicator.style.setProperty('--nav-direction',String(Math.sign(idx-previous)||1))}navigation.dataset.page=ui.page}renderSheet();applyTheme(effectiveTheme());updateLiveTimeline();if(ui.page==='schedule')requestAnimationFrame(updateLiveTimeline)}
+function render(){document.documentElement.dataset.density=compactPrefs().density;syncSnow();const pages={home,schedule:schedulePage,tasks:tasksPage,study:studyPage,calendar:calendarPage,subjectDetail:subjectDetailPage,nachert:nachertPage,profile:profilePage,settings:settingsPage,controls:controlsPage,pe:pePage,fun:funPage,ben:benPage};const app=document.getElementById('app');if(!app.querySelector('#nova-content'))app.innerHTML='<div id="page-scroll"><main id="nova-content" class="shell"></main></div><button id="bento-sidebar-toggle" type="button" aria-label="Показать или скрыть боковую панель" aria-expanded="false" title="Показать меню">☰</button><div id="nova-sheet"></div>';const main=app.querySelector('#nova-content');let desk=document.getElementById('bm-desktop');const railKey=[ui.page,ui.study,isExamMode(),effectiveTheme(),isAutoSeason()].join('/');if(!desk||desk.dataset.state!==railKey){if(desk)desk.outerHTML=desktopNav();else app.insertAdjacentHTML('afterbegin',desktopNav());document.getElementById('bm-desktop').dataset.state=railKey}const next=head()+(pages[ui.page]||home)();const changing=main.dataset.page!==ui.page;main.dataset.page=ui.page;main.classList.toggle('page-enter',changing);main.innerHTML=next;applyBentoLayout();compactDecorate(main);let navigation=document.getElementById('nova-nav');if(!navigation){navigation=document.createElement('div');navigation.id='nova-nav';document.body.appendChild(navigation);}if(!navigation.querySelector('.nav')){navigation.innerHTML=nav();navigation.dataset.page=ui.page}else if(navigation.dataset.page!==ui.page){const pages=['home','schedule','tasks','study','profile'];const idx=pages.indexOf(ui.page);const bar=navigation.querySelector('.nav');const indicator=bar.querySelector('.nav-indicator');const previous=pages.indexOf(navigation.dataset.page);bar.querySelectorAll('button[data-action^="page:"]').forEach((button,i)=>{const active=i===idx;button.classList.toggle('active',active);button.setAttribute('aria-current',active?'page':'false')});if(indicator&&idx>=0){indicator.style.transform=`translateX(calc(${idx*100}% + ${idx*6}px))`;}navigation.dataset.page=ui.page}renderSheet();applyTheme(effectiveTheme());updateLiveTimeline();if(ui.page==='schedule')requestAnimationFrame(updateLiveTimeline)}
 let sheetOpener=null;
 function renderSheet(){const host=document.getElementById('nova-sheet');if(!host)return;const old=host.querySelector('#editor');const same=host.dataset.editor===String(ui.sheet||'');const draft=same&&old&&String(ui.sheet).split('|')[0]==='task'?Object.fromEntries(new FormData(old)):null;const scroll=host.querySelector('.sheet')?.scrollTop||0;
  if(!ui.sheet&&!host.firstChild)return;
@@ -482,20 +482,18 @@ function initSmartNav(){
     const bar=button.closest('.nav');
     gesture={bounds:bar.getBoundingClientRect(),id:ev.pointerId,button,bar,x:ev.clientX,y:ev.clientY,initial:pages.indexOf(ui.page),moved:false};
     try{button.setPointerCapture(ev.pointerId)}catch(_){/* Safari may refuse capture */}
-    bar.classList.add('nav-dragging');
     document.documentElement.classList.remove('nav-hidden');
-    visual(bar,ev.clientX);
   },{passive:true});
   document.addEventListener('pointermove',ev=>{
     const g=gesture;if(!g||ev.pointerId!==g.id)return;
-    if(Math.abs(ev.clientX-g.x)>5||Math.abs(ev.clientY-g.y)>5)g.moved=true;
+    if(Math.abs(ev.clientX-g.x)>5)g.moved=true;
     if(ev.cancelable)ev.preventDefault();
-    visual(g.bar,ev.clientX);
+    if(g.moved){g.bar.classList.add('nav-dragging');visual(g.bar,ev.clientX);}
   },{passive:false});
   const finish=(ev,cancelled)=>{
     const g=gesture;if(!g||ev.pointerId!==g.id)return;
     gesture=null;
-    const index=cancelled?Math.max(0,g.initial):indexAt(g.bar,ev.clientX);
+    const index=cancelled?Math.max(0,g.initial):g.moved?indexAt(g.bar,ev.clientX):pages.indexOf(g.button.dataset.action.slice(5));
     g.bar.classList.remove('nav-dragging');
     g.bar.querySelectorAll('.drag-hover').forEach(b=>b.classList.remove('drag-hover'));
     snap(g.bar,index);
