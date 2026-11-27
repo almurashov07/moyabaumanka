@@ -4,13 +4,13 @@ function syncSnow(){
  let layer=document.getElementById('bm-snow');
  if(!snowEnabled()){if(layer)layer.remove();return}if(layer)return;
  layer=document.createElement('div');layer.id='bm-snow';layer.setAttribute('aria-hidden','true');
- for(let i=0;i<(window.innerWidth<700?34:56);i++){
+ for(let i=0;i<(window.innerWidth<700?68:112);i++){
  const f=document.createElement('span'),duration=9+Math.random()*13;
- f.className=i%7===0?'bm-snow-star':'bm-snow-dot';
- f.style.cssText=`--x:${Math.random()*100}%;--size:${2+Math.random()*5}px;--fall:${duration}s;--delay:${-Math.random()*duration}s;--drift:${Math.random()*70-35}px;--alpha:${0.2+Math.random()*0.45}`;
+ f.className=i%3===0?'bm-snow-crystal bm-snow-fine':'bm-snow-crystal';
+ f.style.cssText=`--x:${Math.random()*100}%;--size:${2+Math.random()*5}px;--fall:${duration}s;--delay:${-Math.random()*duration}s;--drift:${Math.random()*70-35}px;--alpha:${0.35+Math.random()*0.45};--spin:${Math.random()<0.5?-180:180}deg`;
  layer.appendChild(f)}document.body.appendChild(layer);
 }
-const APP_VERSION='3.3.1';
+const APP_VERSION='3.3.3';
 const seed=window.BAUMAN_SEED,S=seed.subjects,keys=['btasks','bscores','bpe','bauman_exams_v4','bauman_avatar_v1','bauman_profile_name_v1','baumanka_v11_changes','baumanka_v11_prep','baumanka_v11_dashboard','bauman_exam_draw_migrated','baumanka_fun_hamster_taps','baumanka_fun_sign','nova_theme','nova_custom_theme_v18','baumanka_hamster_skin_v181','baumanka_hamster_owned_v181','baumanka_notes_v19','baumanka_focus_v19','baumanka_custom_lessons_v2052','baumanka_auto_season_v32','baumanka_subject_colors_v33','baumanka_exam_mode_v33','baumanka_exam_questions_v33','baumanka_notify_v33','baumanka_widgets_hidden_v33','baumanka_snow_v331'];
 const read=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch{return d}},put=(k,v)=>{localStorage.setItem(k,JSON.stringify(v))};
 let data={tasks:read('btasks',seed.initialTasks),scores:read('bscores',seed.initialScores),pe:read('bpe',{visits:18,points:38}),exams:read('bauman_exams_v4',seed.initialExams),changes:read('baumanka_v11_changes',[]),prep:read('baumanka_v11_prep',{}),dashboard:read('baumanka_v11_dashboard',{timer:true,deadlines:true,stats:true,exams:true,calendar:true}),name:read('bauman_profile_name_v1','Александр'),avatar:read('bauman_avatar_v1',null)};
