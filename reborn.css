@@ -1948,3 +1948,10 @@ body{
   font-size:12px;
   font-weight:900;
 }
+/* Independent viewport snow */
+#bm-snow{position:fixed;inset:0;z-index:2147483646;overflow:hidden;pointer-events:none!important;user-select:none;contain:strict}
+#bm-snow span{position:absolute;top:-12px;left:var(--x);width:var(--size);height:var(--size);opacity:var(--alpha);pointer-events:none;animation:bm-snow-fall var(--fall) var(--delay) linear infinite}
+#bm-snow .bm-snow-dot{border-radius:50%;background:#eaf4ff;box-shadow:0 0 3px #819bb4}
+#bm-snow .bm-snow-star{background:#eaf4ff;clip-path:polygon(42% 0,58% 0,58% 42%,100% 42%,100% 58%,58% 58%,58% 100%,42% 100%,42% 58%,0 58%,0 42%,42% 42%)}
+@keyframes bm-snow-fall{0%{transform:translate3d(0,-12px,0)}50%{transform:translate3d(var(--drift),50vh,0)}100%{transform:translate3d(0,calc(100vh + 24px),0)}}
+@media(prefers-reduced-motion:reduce){#bm-snow{display:none}}
