@@ -27,7 +27,7 @@ vm.runInNewContext(fs.readFileSync(path.join(root,'sw.js'),'utf8'),{self:worker,
  await new Promise(resolve=>events.activate({waitUntil:resolve}));
  assert(stores.has('another-cache'));
  assert(!stores.has('baumanka-nova-v300-bmstu-400'));
- for(const [relative,mode,expected] of [['./','navigate','<html'],['./app.js?v=4013','cors','refreshHomeStatus'],['./styles.css?v=4013','cors','.native-live']]){
+ for(const [relative,mode,expected] of [['./','navigate','<html'],['./app.js?v=4020','cors','refreshHomeStatus'],['./styles.css?v=4020','cors','.native-live']]){
    const response=await new Promise(resolve=>events.fetch({request:{method:'GET',url:new URL(relative,scope).href,mode},respondWith:resolve}));
    assert((await response.text()).includes(expected),relative);
  }

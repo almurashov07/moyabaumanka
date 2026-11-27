@@ -5,7 +5,7 @@ for(const file of ['index.html','app.js','seed.js','horoscope.js','styles.css','
 const app=get('app.js'),html=get('index.html'),css=get('styles.css'),sw=get('sw.js');
 for(const key of ['btasks','bscores','bpe','bauman_exams_v4','bauman_profile_name_v1','baumanka_v11_changes','baumanka_v11_prep'])assert(app.includes(key),'missing storage key: '+key);
 for(const fragment of ['function refreshHomeStatus','function renderSheet','function snapshotLocal','function renderAnchored','function refreshScoreTotals','async function weather','function calendarPage'])assert(app.includes(fragment),'missing function: '+fragment);
-assert(html.includes('styles.css?v=4013')&&html.includes('app.js?v=4013'));
+assert(html.includes('styles.css?v=4020')&&html.includes('app.js?v=4020'));
 assert(sw.includes('baumanka-nova-v300-bmstu')&&sw.includes('mode===\'navigate\''));
 assert(css.includes('(hover:hover)')&&css.includes('pointer:fine'));
 const parity=d=>((Math.floor((new Date(d.getFullYear(),d.getMonth(),d.getDate(),12)-new Date(2026,10,9,12))/604800000)%2)+2)%2;
@@ -18,7 +18,7 @@ for(const name of ['chibis','siply','basmach','sych','shershavy']){assert(fs.exi
 assert(app.includes('hamsterWardrobe()'));assert(app.includes("cmd==='hamsterskin'"));assert(app.includes('baumanka_hamster_owned_v181'));
 console.log('OK: v18.1 original photos, wardrobe, tap balance, offline assets');
 
-for(const x of ["function notesPage", "function focusPage", "function focusTick", "['archive','Выполненные']", "baumanka_notes_v19", "baumanka_focus_v19", "task-subject", "task-sort"])assert(app.includes(x),"v19 feature missing: "+x);
+for(const x of ["function notesPage", "function focusPage", "function focusTick", "['archive','Архив']", "baumanka_notes_v19", "baumanka_focus_v19", "task-subject", "task-sort"])assert(app.includes(x),"v19 feature missing: "+x);
 console.log("OK: v19 task archive, subject filter, notes, focus and storage");
 
 assert(app.includes("['notes','Заметки','book']"));
